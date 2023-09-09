@@ -11,8 +11,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flkig"]
 size = Vector2(128, 128)
 
-[node name="Player" type="CharacterBody2D"]
-collision_layer = 8
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_mask = 8
 script = ExtResource("1_s8mp3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

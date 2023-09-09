@@ -8,14 +8,23 @@ public partial class BasicEnemyRun : State
     //Export variable for player movement speed
     [Export] public float MovementSpeed;
 
-    //Variable for movement direction
-    public Vector2 Direction = new();
-
     //Export variable for the wander timer
     [Export] public Timer WanderTimerRun = new();
 
+    //Export variable for raycast
+    [Export] public RayCast2D raycast = new();
+
+    //Variable for movement direction
+    public Vector2 Direction = new();
+
     //Variable for randomness
     public RandomNumberGenerator r = new();
+
+    //variable for gravity
+    public float gravity = 980 * 20;
+
+    //Variable for direction change
+    public bool ChangeDirectionCheck;
 
     /// <summary>
     /// Function for entering the state
@@ -26,6 +35,7 @@ public partial class BasicEnemyRun : State
         RandomiseWanderTimer();
         WanderTimerRun.Start();
         Direction = RandomiseDirection();
+        ChangeDirectionCheck = true;
     }
 
     /// <summary>
@@ -44,18 +54,25 @@ public partial class BasicEnemyRun : State
     {
         Vector2 velocity = SubjectBody.Velocity;
 
+        //Gravity
+        if (!SubjectBody.IsOnFloor())
+        {
+            velocity.Y += gravity * (float)delta;
+        }
+
+        if (raycast.IsColliding() && ChangeDirectionCheck) 
+        {
+            ChangeDirectionCheck = false;
+            ChangeDirection();
+        }
+        else if (!raycast.IsColliding())
+        {
+            ChangeDirectionCheck = true;
+        }
+
         velocity.X = Direction.X * MovementSpeed;
 
         SubjectBody.Velocity = velocity;
-    }
-
-    /// <summary>
-    /// Function for the update of the state
-    /// </summary>
-    /// <param name="delta"></param>
-    public override void UpdateProcess(double delta)
-    {
-
     }
 
     /// <summary>
@@ -86,7 +103,25 @@ public partial class BasicEnemyRun : State
         Vector2 randomDirection = new();
         int[] randomX = {-1, 1};
         randomDirection = new Vector2(randomX[GD.Randi() % randomX.Length], 0);
-        GD.Print(randomDirection.X);
         return randomDirection;
+    }
+
+    /// <summary>
+    /// Chase the player if too close
+    /// </summary>
+    public void OnDetectionRadiusEntered(Node2D player)
+    {
+        EmitSignal(signal: "StateTransition", this, "BasicEnemyChase");
+    }
+
+    /// <summary>
+    /// If there is a wall, change the direction
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 ChangeDirection()
+    {
+        Direction.X = -Direction.X;
+        raycast.Scale = new Vector2(Direction.X, 1);
+        return Direction;
     }
 }

@@ -44,15 +44,6 @@ public partial class BasicEnemyIdle : State
     }
 
     /// <summary>
-    /// Function for the update of the state
-    /// </summary>
-    /// <param name="delta"></param>
-    public override void UpdateProcess(double delta)
-    {
-
-    }
-
-    /// <summary>
     /// Randomise the duration of wander timer
     /// </summary>
     public void RandomiseWanderTimer()
@@ -69,5 +60,13 @@ public partial class BasicEnemyIdle : State
     public void OnWanderTimerIdleTimeout()
     {
         EmitSignal(signal: "StateTransition", this, "BasicEnemyRun");
+    }
+
+    /// <summary>
+    /// Chase the player if too close
+    /// </summary>
+    public void OnDetectionRadiusEntered(Node2D player)
+    {
+        EmitSignal(signal: "StateTransition", this, "BasicEnemyChase");
     }
 }

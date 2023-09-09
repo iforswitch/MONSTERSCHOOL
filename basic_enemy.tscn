@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bokud5uqybngt"]
+[gd_scene load_steps=9 format=3 uid="uid://bokud5uqybngt"]
 
 [ext_resource type="Texture2D" uid="uid://kumntc76botv" path="res://icon.svg" id="1_ggcrt"]
 [ext_resource type="Script" path="res://basic_enemy.cs" id="1_p8rw3"]
@@ -10,10 +10,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c6hi0"]
 size = Vector2(128, 128)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_lj51f"]
+radius = 384.0
+
 [node name="BasicEnemy" type="CharacterBody2D"]
-collision_layer = 8
-collision_mask = 2
+collision_layer = 2
+collision_mask = 8
 script = ExtResource("1_p8rw3")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+self_modulate = Color(1, 1, 0, 1)
+target_position = Vector2(67, 0)
+collision_mask = 8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 0, 0, 1)
@@ -35,18 +43,30 @@ SubjectBody = NodePath("../..")
 [node name="WanderTimerIdle" type="Timer" parent="BasicEnemyFSM/BasicEnemyIdle"]
 one_shot = true
 
-[node name="BasicEnemyRun" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerRun", "SubjectBody")]
+[node name="BasicEnemyRun" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerRun", "raycast", "SubjectBody")]
 script = ExtResource("5_tgr7d")
 MovementSpeed = 300.0
 WanderTimerRun = NodePath("WanderTimerRun")
+raycast = NodePath("../../RayCast2D")
 SubjectBody = NodePath("../..")
 
 [node name="WanderTimerRun" type="Timer" parent="BasicEnemyFSM/BasicEnemyRun"]
 one_shot = true
 
-[node name="BasicEnemyChase" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("SubjectBody")]
+[node name="BasicEnemyChase" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("raycast", "SubjectBody")]
 script = ExtResource("6_qh803")
+MovementSpeed = 200.0
+raycast = NodePath("../../RayCast2D")
+JumpStrength = 3000.0
 SubjectBody = NodePath("../..")
+
+[node name="DetectionRadius" type="Area2D" parent="BasicEnemyFSM/BasicEnemyChase"]
+collision_layer = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BasicEnemyFSM/BasicEnemyChase/DetectionRadius"]
+self_modulate = Color(1, 1, 1, 0.266667)
+shape = SubResource("CircleShape2D_lj51f")
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 8
@@ -67,3 +87,6 @@ vertical_alignment = 1
 
 [connection signal="timeout" from="BasicEnemyFSM/BasicEnemyIdle/WanderTimerIdle" to="BasicEnemyFSM/BasicEnemyIdle" method="OnWanderTimerIdleTimeout"]
 [connection signal="timeout" from="BasicEnemyFSM/BasicEnemyRun/WanderTimerRun" to="BasicEnemyFSM/BasicEnemyRun" method="OnWanderTimerRunTimeout"]
+[connection signal="body_entered" from="BasicEnemyFSM/BasicEnemyChase/DetectionRadius" to="BasicEnemyFSM/BasicEnemyIdle" method="OnDetectionRadiusEntered"]
+[connection signal="body_entered" from="BasicEnemyFSM/BasicEnemyChase/DetectionRadius" to="BasicEnemyFSM/BasicEnemyRun" method="OnDetectionRadiusEntered"]
+[connection signal="body_exited" from="BasicEnemyFSM/BasicEnemyChase/DetectionRadius" to="BasicEnemyFSM/BasicEnemyChase" method="OnDetectionRadiusExited"]
