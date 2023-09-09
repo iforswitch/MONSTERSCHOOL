@@ -1,27 +1,30 @@
-[gd_scene load_steps=7 format=3 uid="uid://dcv3km5swrrf0"]
+[gd_scene load_steps=9 format=3 uid="uid://dcv3km5swrrf0"]
 
 [ext_resource type="Script" path="res://player.cs" id="1_s8mp3"]
 [ext_resource type="Texture2D" uid="uid://kumntc76botv" path="res://icon.svg" id="2_bvh2b"]
 [ext_resource type="Script" path="res://PlayerFSM.cs" id="3_0wrui"]
 [ext_resource type="Script" path="res://PlayerIdle.cs" id="4_uex4l"]
 [ext_resource type="Script" path="res://PlayerRun.cs" id="5_0tp76"]
+[ext_resource type="Script" path="res://PlayerJump.cs" id="6_u3l7m"]
+[ext_resource type="Script" path="res://PlayerFall.cs" id="7_ld8o3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_flkig"]
 size = Vector2(128, 128)
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 8
 script = ExtResource("1_s8mp3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1.90735e-06, -1.90735e-06)
-scale = Vector2(1, 1)
 texture = ExtResource("2_bvh2b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_flkig")
 
-[node name="PlayerFSM" type="Node2D" parent="." node_paths=PackedStringArray("InitialState") groups=["FSM"]]
+[node name="PlayerFSM" type="Node2D" parent="." node_paths=PackedStringArray("StateText", "InitialState") groups=["FSM"]]
 script = ExtResource("3_0wrui")
+StateText = NodePath("../Label")
 InitialState = NodePath("PlayerIdle")
 
 [node name="PlayerIdle" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody")]
@@ -32,3 +35,31 @@ SubjectBody = NodePath("../..")
 script = ExtResource("5_0tp76")
 MovementSpeed = 300.0
 SubjectBody = NodePath("../..")
+
+[node name="PlayerJump" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody")]
+script = ExtResource("6_u3l7m")
+MovementSpeed = 300.0
+JumpStrength = 3000.0
+SubjectBody = NodePath("../..")
+
+[node name="PlayerFall" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody")]
+script = ExtResource("7_ld8o3")
+MovementSpeed = 300.0
+SubjectBody = NodePath("../..")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -150.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1

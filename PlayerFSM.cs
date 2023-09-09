@@ -5,6 +5,9 @@ using System.Collections.Generic;
 //Inherits the FSM class
 public partial class PlayerFSM : FSM
 {
+    //Export variable to show the current state
+    [Export] public Label StateText = new();
+
     //Dictionary variable for all states of the player
 	public Dictionary<string, State> PlayerStates = new();
 
@@ -55,6 +58,7 @@ public partial class PlayerFSM : FSM
         if (CurrentState != null)
         {
             CurrentState.UpdateProcess(delta);
+            StateText.Text = CurrentState.Name;
         }
     }
 
