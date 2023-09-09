@@ -2,14 +2,22 @@ using Godot;
 using System;
 
 //Inherits State class
-public partial class PlayerIdle : State
+public partial class BasicEnemyIdle : State
 {
+    //Export variable for the wander timer
+    [Export] public Timer WanderTimerIdle = new();
+
+    //Variable for randomness
+    public RandomNumberGenerator r = new();
+
     /// <summary>
     /// Function for entering the state
     /// </summary>
     public override void StateEnter()
     {
         GD.Print($"{Name} entered.");
+        RandomiseWanderTimer();
+        WanderTimerIdle.Start();
     }
 
     /// <summary>
@@ -32,24 +40,6 @@ public partial class PlayerIdle : State
             velocity.X = 0;
         }
 
-        //Transition to PlayerRun state if moving
-        if (Input.IsActionPressed("MoveLeft") || Input.IsActionPressed("MoveRight"))
-        {
-            EmitSignal(signal: "StateTransition", this, "PlayerRun");
-        }
-
-        //Go to PlayerFall if SubjectBody is not grounded
-        if (!SubjectBody.IsOnFloor())
-        {
-            EmitSignal(signal: "StateTransition", this, "PlayerFall");
-        }
-
-        //Go to PlayerJump if SubjectBody is jumping
-        if (Input.IsActionPressed("MoveJump") && SubjectBody.IsOnFloor())
-        {
-            EmitSignal(signal: "StateTransition", this, "PlayerJump");
-        }
-
         SubjectBody.Velocity = velocity;
     }
 
@@ -63,11 +53,21 @@ public partial class PlayerIdle : State
     }
 
     /// <summary>
-    /// Function for the key input of the state
+    /// Randomise the duration of wander timer
     /// </summary>
-    /// <param name="event"></param>
-    public override void UnhandledKeyInput(InputEvent @event)
+    public void RandomiseWanderTimer()
     {
-        
+        if (WanderTimerIdle.TimeLeft == 0)
+        {
+            WanderTimerIdle.WaitTime = r.RandfRange(0.5f, 1.5f);
+        }
+    }
+
+    /// <summary>
+    /// Timeoutsignal for the wander timer
+    /// </summary>
+    public void OnWanderTimerIdleTimeout()
+    {
+        EmitSignal(signal: "StateTransition", this, "BasicEnemyRun");
     }
 }

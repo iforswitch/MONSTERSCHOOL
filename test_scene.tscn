@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://7ev1j3xp3owi"]
+[gd_scene load_steps=6 format=3 uid="uid://7ev1j3xp3owi"]
 
 [ext_resource type="PackedScene" uid="uid://dcv3km5swrrf0" path="res://player.tscn" id="1_nixjo"]
 [ext_resource type="Texture2D" uid="uid://kumntc76botv" path="res://icon.svg" id="2_nkbvs"]
+[ext_resource type="PackedScene" uid="uid://bokud5uqybngt" path="res://basic_enemy.tscn" id="3_k0ea1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y75py"]
 texture = ExtResource("2_nkbvs")
@@ -26,4 +27,7 @@ self_modulate = Color(0, 0, 0, 1)
 tile_set = SubResource("TileSet_o067m")
 cell_quadrant_size = 64
 format = 2
-layer_0/tile_data = PackedInt32Array(262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 327679, 0, 0, 262154, 0, 0, 327678, 0, 0, 262155, 0, 0, 196613, 0, 0, 196614, 0, 0, 131078, 0, 0, 196615, 0, 0)
+layer_0/tile_data = PackedInt32Array(262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 327679, 0, 0, 262154, 0, 0, 327678, 0, 0, 262155, 0, 0, 196613, 0, 0, 196614, 0, 0, 131078, 0, 0, 196615, 0, 0, 327677, 0, 0, 262141, 0, 0, 196605, 0, 0, 131069, 0, 0, 65533, 0, 0, -3, 0, 0, 262156, 0, 0, 196620, 0, 0, 131084, 0, 0, 65548, 0, 0, 12, 0, 0, -65524, 0, 0)
+
+[node name="BasicEnemy" parent="." instance=ExtResource("3_k0ea1")]
+position = Vector2(1216, 448)

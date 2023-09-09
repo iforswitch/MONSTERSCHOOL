@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://bokud5uqybngt"]
+
+[ext_resource type="Texture2D" uid="uid://kumntc76botv" path="res://icon.svg" id="1_ggcrt"]
+[ext_resource type="Script" path="res://basic_enemy.cs" id="1_p8rw3"]
+[ext_resource type="Script" path="res://BasicEnemyFSM.cs" id="3_51niu"]
+[ext_resource type="Script" path="res://BasicEnemyIdle.cs" id="4_a5o55"]
+[ext_resource type="Script" path="res://BasicEnemyRun.cs" id="5_tgr7d"]
+[ext_resource type="Script" path="res://BasicEnemyChase.cs" id="6_qh803"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c6hi0"]
+size = Vector2(128, 128)
+
+[node name="BasicEnemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_p8rw3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1, 0, 0, 1)
+texture = ExtResource("1_ggcrt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c6hi0")
+
+[node name="BasicEnemyFSM" type="Node2D" parent="." node_paths=PackedStringArray("StateText", "InitialState")]
+script = ExtResource("3_51niu")
+StateText = NodePath("../Label")
+InitialState = NodePath("BasicEnemyIdle")
+
+[node name="BasicEnemyIdle" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerIdle", "SubjectBody")]
+script = ExtResource("4_a5o55")
+WanderTimerIdle = NodePath("WanderTimerIdle")
+SubjectBody = NodePath("../..")
+
+[node name="WanderTimerIdle" type="Timer" parent="BasicEnemyFSM/BasicEnemyIdle"]
+one_shot = true
+
+[node name="BasicEnemyRun" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerRun", "SubjectBody")]
+script = ExtResource("5_tgr7d")
+MovementSpeed = 300.0
+WanderTimerRun = NodePath("WanderTimerRun")
+SubjectBody = NodePath("../..")
+
+[node name="WanderTimerRun" type="Timer" parent="BasicEnemyFSM/BasicEnemyRun"]
+one_shot = true
+
+[node name="BasicEnemyChase" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("SubjectBody")]
+script = ExtResource("6_qh803")
+SubjectBody = NodePath("../..")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -150.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="timeout" from="BasicEnemyFSM/BasicEnemyIdle/WanderTimerIdle" to="BasicEnemyFSM/BasicEnemyIdle" method="OnWanderTimerIdleTimeout"]
+[connection signal="timeout" from="BasicEnemyFSM/BasicEnemyRun/WanderTimerRun" to="BasicEnemyFSM/BasicEnemyRun" method="OnWanderTimerRunTimeout"]
