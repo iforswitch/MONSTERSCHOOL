@@ -84,6 +84,7 @@ public partial class BasicEnemyRun : State
         }
 
         RaycastGroup.Scale = new Vector2(Direction.X, 1);
+        PivotNode.Scale = new Vector2(Direction.X, 1);
         velocity.X = Direction.X * MovementSpeed;
 
         SubjectBody.Velocity = velocity;

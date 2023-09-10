@@ -14,13 +14,25 @@ public partial class PlayerFSM : FSM
     //State variable for the current state
     public State CurrentState = new();
 
+    //Variable for health
+    public float Health;
+
+    //Variable for death
+    public bool Dead;
+
     /// <summary>
 	/// Called when the node enters the scene tree for the first time.
 	/// </summary>
     public override void _Ready()
 	{
+        //Set the health
+        Health = MaxHealth;
+
+        //Set the deatg
+        Dead = false;
+
         //Add each child to the PlayerStates dictionary
-		foreach(State child in GetChildren())
+        foreach (State child in GetChildren())
 		{
             //Connect each child signal to the FSM function
             child.StateTransition += OnStateTransition;
@@ -108,5 +120,24 @@ public partial class PlayerFSM : FSM
 
         //Set the current state to the new state
         CurrentState = newState;
+    }
+
+    /// <summary>
+    /// Function for damaging the subject body
+    /// </summary>
+    /// <param name="damage"></param>
+    public override void Hit(float damage)
+    {
+        if (Health > 0)
+        {
+            OnStateTransition(emittingState: CurrentState, targetState: "PlayerHurt");
+        }
+        else if (Health <= 0 && !Dead)
+        {
+            Dead = true;
+            OnStateTransition(emittingState: CurrentState, targetState: "PlayerDeath");
+        }
+
+        Health -= damage;
     }
 }

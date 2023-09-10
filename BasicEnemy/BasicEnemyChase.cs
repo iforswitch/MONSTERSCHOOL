@@ -92,13 +92,15 @@ public partial class BasicEnemyChase : State
         else
         {
             velocity.X = 0;
-            StateAnimation.Play("BasicEnemyIdle");
+            EmitSignal(signal: "StateTransition", this, "BasicEnemyAttack");
         }
 
         if (!DetectionRadius.HasOverlappingBodies())
         {
             EmitSignal(signal: "StateTransition", this, "BasicEnemyIdle");
         }
+
+        PivotNode.Scale = new Vector2(Direction.X, 1);
 
         SubjectBody.Velocity = velocity;
     }
