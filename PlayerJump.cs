@@ -79,6 +79,14 @@ public partial class PlayerJump : State
             Direction = Vector2.Zero;
         }
 
+        //Go to PlayerAttack if SubjectBody is attacking
+        if (Input.IsActionPressed("Attack"))
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerAttack");
+        }
+
+        PivotNode.Scale = new Vector2(Direction.X, 1);
+
         velocity.X = MovementSpeed * Direction.X;
         SubjectBody.Velocity = velocity;
     }

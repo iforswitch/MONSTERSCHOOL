@@ -14,6 +14,9 @@ public partial class BasicEnemyChase : State
     //Export variable for player jump
     [Export] public float JumpStrength;
 
+    //Export variable for area2D
+    [Export] public Area2D DetectionRadius = new();
+
     //Variable for movement direction
     public Vector2 Direction = new();
 
@@ -90,6 +93,11 @@ public partial class BasicEnemyChase : State
         {
             velocity.X = 0;
             StateAnimation.Play("BasicEnemyIdle");
+        }
+
+        if (!DetectionRadius.HasOverlappingBodies())
+        {
+            EmitSignal(signal: "StateTransition", this, "BasicEnemyIdle");
         }
 
         SubjectBody.Velocity = velocity;

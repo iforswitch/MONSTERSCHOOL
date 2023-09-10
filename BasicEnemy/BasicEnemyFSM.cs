@@ -17,6 +17,9 @@ public partial class BasicEnemyFSM : FSM
     //Variable for health
     public float Health;
 
+    //Variable for death
+    public bool Dead;
+
     /// <summary>
 	/// Called when the node enters the scene tree for the first time.
 	/// </summary>
@@ -24,6 +27,9 @@ public partial class BasicEnemyFSM : FSM
     {
         //Set the health
         Health = MaxHealth;
+
+        //Set the deatg
+        Dead = false;
 
         //Add each child to the PlayerStates dictionary
         foreach (State child in GetChildren())
@@ -51,12 +57,6 @@ public partial class BasicEnemyFSM : FSM
         if (CurrentState != null)
         {
             CurrentState.PhysicsProcess(delta);
-        }
-
-        //Kill body when health is 0
-        if (Health <= 0)
-        {
-            GetParent().QueueFree();
         }
     }
 
@@ -128,6 +128,23 @@ public partial class BasicEnemyFSM : FSM
     /// <param name="damage"></param>
     public override void Hit(float damage)
     {
+        if (Health > 0)
+        {
+            if (CurrentState == PlayerStates.GetValueOrDefault(key: "BasicEnemyHurt"))
+            {
+                CurrentState.StateEnter();
+            }
+            else
+            {
+                OnStateTransition(emittingState: CurrentState, targetState: "BasicEnemyHurt");
+            }
+        }
+        else if (Health <= 0 && !Dead)
+        {
+            Dead = true;
+            OnStateTransition(emittingState: CurrentState, targetState: "BasicEnemyDead");
+        }
+
         Health -= damage;
     }
 }

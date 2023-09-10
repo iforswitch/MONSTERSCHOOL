@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bokud5uqybngt"]
+[gd_scene load_steps=21 format=3 uid="uid://bokud5uqybngt"]
 
 [ext_resource type="Script" path="res://BasicEnemy/basic_enemy.cs" id="1_g5is0"]
 [ext_resource type="Texture2D" uid="uid://tarxtcn7gl60" path="res://BasicEnemySprites/Idle.png" id="2_o6xap"]
@@ -7,6 +7,10 @@
 [ext_resource type="Script" path="res://BasicEnemy/BasicEnemyRun.cs" id="5_fb0sf"]
 [ext_resource type="Script" path="res://BasicEnemy/BasicEnemyChase.cs" id="6_n7xub"]
 [ext_resource type="Texture2D" uid="uid://dxg718sacqb8y" path="res://BasicEnemySprites/Walk.png" id="7_ackgt"]
+[ext_resource type="Script" path="res://BasicEnemyDead.cs" id="7_gjfkb"]
+[ext_resource type="Script" path="res://BasicEnemyHurt.cs" id="7_wtuts"]
+[ext_resource type="Texture2D" uid="uid://wxk34sl134oe" path="res://BasicEnemySprites/Death.png" id="9_sgc7n"]
+[ext_resource type="Texture2D" uid="uid://btr157v1he1vx" path="res://BasicEnemySprites/Take Hit.png" id="10_y7qjq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jalhc"]
 radius = 70.0
@@ -213,9 +217,115 @@ tracks/3/keys = {
 "values": [8]
 }
 
+[sub_resource type="Animation" id="Animation_3hg41"]
+resource_name = "BasicEnemyDead"
+length = 0.31
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("9_sgc7n")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationPlayer:speed_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_2qfds"]
+resource_name = "BasicEnemyHurt"
+length = 0.31
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_y7qjq")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationPlayer:speed_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pf5re"]
 _data = {
 "BasicEnemyChase": SubResource("Animation_wwxnh"),
+"BasicEnemyDead": SubResource("Animation_3hg41"),
+"BasicEnemyHurt": SubResource("Animation_2qfds"),
 "BasicEnemyIdle": SubResource("Animation_o5ro4"),
 "BasicEnemyRun": SubResource("Animation_cmw37"),
 "RESET": SubResource("Animation_uqrud")
@@ -262,11 +372,12 @@ StateSprite = NodePath("../../Sprite2D")
 [node name="WanderTimerRun" type="Timer" parent="BasicEnemyFSM/BasicEnemyRun"]
 one_shot = true
 
-[node name="BasicEnemyChase" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("RaycastGroup", "SubjectBody", "StateAnimation", "StateSprite")]
+[node name="BasicEnemyChase" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("RaycastGroup", "DetectionRadius", "SubjectBody", "StateAnimation", "StateSprite")]
 script = ExtResource("6_n7xub")
 MovementSpeed = 200.0
 RaycastGroup = NodePath("../../Raycasts")
 JumpStrength = 700.0
+DetectionRadius = NodePath("DetectionRadius")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
@@ -278,6 +389,25 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BasicEnemyFSM/BasicEnemyChase/DetectionRadius"]
 self_modulate = Color(1, 1, 1, 0.266667)
 shape = SubResource("CircleShape2D_lj51f")
+
+[node name="BasicEnemyDead" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("DeathTimer", "SubjectBody", "StateAnimation", "StateSprite", "PivotNode")]
+script = ExtResource("7_gjfkb")
+DeathTimer = NodePath("DeathTimer")
+SubjectBody = NodePath("../..")
+StateAnimation = NodePath("../../AnimationPlayer")
+StateSprite = NodePath("../../Sprite2D")
+PivotNode = NodePath("../../Raycasts")
+
+[node name="DeathTimer" type="Timer" parent="BasicEnemyFSM/BasicEnemyDead"]
+wait_time = 2.0
+one_shot = true
+
+[node name="BasicEnemyHurt" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode")]
+script = ExtResource("7_wtuts")
+SubjectBody = NodePath("../..")
+StateAnimation = NodePath("../../AnimationPlayer")
+StateSprite = NodePath("../../Sprite2D")
+PivotNode = NodePath("../../Raycasts")
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 8
@@ -326,3 +456,6 @@ collision_mask = 8
 [connection signal="body_entered" from="BasicEnemyFSM/BasicEnemyChase/DetectionRadius" to="BasicEnemyFSM/BasicEnemyIdle" method="OnDetectionRadiusEntered"]
 [connection signal="body_entered" from="BasicEnemyFSM/BasicEnemyChase/DetectionRadius" to="BasicEnemyFSM/BasicEnemyRun" method="OnDetectionRadiusEntered"]
 [connection signal="body_exited" from="BasicEnemyFSM/BasicEnemyChase/DetectionRadius" to="BasicEnemyFSM/BasicEnemyChase" method="OnDetectionRadiusExited"]
+[connection signal="timeout" from="BasicEnemyFSM/BasicEnemyDead/DeathTimer" to="BasicEnemyFSM/BasicEnemyDead" method="OnDeathTimerTimeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="BasicEnemyFSM/BasicEnemyDead" method="OnAnimationPlayerFinished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="BasicEnemyFSM/BasicEnemyHurt" method="OnAnimationPlayerFinished"]

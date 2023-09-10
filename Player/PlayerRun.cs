@@ -59,6 +59,12 @@ public partial class PlayerRun : State
             EmitSignal(signal: "StateTransition", this, "PlayerFall");
         }
 
+        //Go to PlayerAttack if SubjectBody is attacking
+        if (Input.IsActionPressed("Attack"))
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerAttack");
+        }
+
         PivotNode.Scale = new Vector2(Direction.X, 1);
 
         velocity.X = MovementSpeed * Direction.X;

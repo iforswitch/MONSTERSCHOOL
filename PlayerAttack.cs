@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class PlayerAttack : State
 {
@@ -9,8 +10,11 @@ public partial class PlayerAttack : State
     //Export variable for damage
     [Export] public float damage;
 
-    //Export variable attack buffering
+    //Export variable for attack buffering
     [Export] public Timer AttackBuffer = new();
+
+    //Export variable for area2D
+    [Export] public Area2D AttackHitbox = new();
 
     //Variable for movement direction
     public Vector2 Direction = new();
@@ -51,21 +55,15 @@ public partial class PlayerAttack : State
         {
             velocity.Y += gravity * (float)delta;
         }
-        SubjectBody.Velocity = velocity;
-    }
 
-    /// <summary>
-    /// Function for the key input of the state
-    /// </summary>
-    /// <param name="event"></param>
-    public override void UnhandledKeyInput(InputEvent @event)
-    {
-        if (@event.IsActionPressed("Attack") && AttackBuffer.TimeLeft > 0)
+        if (Input.IsActionPressed("Attack") && AttackBuffer.TimeLeft > 0)
         {
             StateAnimation.Play($"{Name}_2");
             AttackBuffer.Stop();
             CanHit = true;
         }
+
+        SubjectBody.Velocity = velocity;
     }
 
     /// <summary>
@@ -84,26 +82,6 @@ public partial class PlayerAttack : State
         else if (anim_name == $"{Name}_2")
         {
             ExitAttackState();
-        }
-    }
-
-    /// <summary>
-    /// Detects enemies or objects to attack
-    /// </summary>
-    /// <param name="enemy"></param>
-    public void OnHitboxEntered(Node2D enemy)
-    {
-        if (enemy != null && CanHit)
-        {
-            CanHit = false;
-            for (int i = 0; i < enemy.GetChildCount(); i++)
-            {
-                if (enemy.GetChild(i) is FSM)
-                {
-                    FSM enemyFSM = enemy.GetChild(i) as FSM;
-                    enemyFSM.Hit(damage);
-                }
-            }
         }
     }
 
@@ -128,6 +106,28 @@ public partial class PlayerAttack : State
         else
         {
             EmitSignal(signal: "StateTransition", this, "PlayerIdle");
+        }
+    }
+
+    /// <summary>
+    /// Function for overlapping bodies in attack hitbox
+    /// </summary>
+    public void OnOverlappingBodiesCheck(Godot.Collections.Array<Node2D> bodyList)
+    {
+        if (bodyList != null && CanHit)
+        {
+            CanHit = false;
+            foreach (var body in bodyList)
+            {
+                for (int i = 0; i < body.GetChildCount(); i++)
+                {
+                    if (body.GetChild(i) is FSM)
+                    {
+                        FSM enemyFSM = body.GetChild(i) as FSM;
+                        enemyFSM.Hit(damage);
+                    }
+                }
+            }
         }
     }
 }

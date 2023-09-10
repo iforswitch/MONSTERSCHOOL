@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dcv3km5swrrf0"]
+[gd_scene load_steps=24 format=3 uid="uid://dcv3km5swrrf0"]
 
 [ext_resource type="Script" path="res://Player/player.cs" id="1_vg6pi"]
 [ext_resource type="Texture2D" uid="uid://et3ov1yl0qib" path="res://PlayerSprites/_Run.png" id="2_8yeny"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://g36i6ingn3by" path="res://PlayerSprites/_Jump.png" id="10_c108s"]
 [ext_resource type="Texture2D" uid="uid://cy3f1868iucnv" path="res://PlayerSprites/_Attack.png" id="12_2j1gk"]
 [ext_resource type="Texture2D" uid="uid://c24iwoecnrmnl" path="res://PlayerSprites/_Attack2.png" id="13_8tq77"]
+[ext_resource type="Script" path="res://Hitbox.cs" id="14_vuwk6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kw4nk"]
 radius = 28.0
@@ -430,15 +431,17 @@ SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
 
-[node name="PlayerAttack" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("AttackBuffer", "SubjectBody", "StateAnimation", "StateSprite")]
+[node name="PlayerAttack" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("AttackBuffer", "AttackHitbox", "SubjectBody", "StateAnimation", "StateSprite")]
 script = ExtResource("8_f8go7")
-damage = 25.0
+damage = 10.0
 AttackBuffer = NodePath("AttackBuffer")
+AttackHitbox = NodePath("../../PivotNode/Hitbox")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
 
 [node name="AttackBuffer" type="Timer" parent="PlayerFSM/PlayerAttack"]
+wait_time = 0.1
 one_shot = true
 
 [node name="Label" type="Label" parent="."]
@@ -472,10 +475,11 @@ position = Vector2(2, 0)
 collision_mask = 2
 monitoring = false
 monitorable = false
+script = ExtResource("14_vuwk6")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PivotNode/Hitbox"]
 polygon = PackedVector2Array(173, 40, 211, 34, 257, -3, 266, -92, 311, -36, 312, 54, 278, 96, 230, 95, 151, 60)
 
 [connection signal="timeout" from="PlayerFSM/PlayerAttack/AttackBuffer" to="PlayerFSM/PlayerAttack" method="OnAttackBufferTimeout"]
 [connection signal="animation_finished" from="AnimationPlayer" to="PlayerFSM/PlayerAttack" method="OnAnimationPlayerFinished"]
-[connection signal="body_entered" from="PivotNode/Hitbox" to="PlayerFSM/PlayerAttack" method="OnHitboxEntered"]
+[connection signal="OverlappingBodiesCheck" from="PivotNode/Hitbox" to="PlayerFSM/PlayerAttack" method="OnOverlappingBodiesCheck"]
