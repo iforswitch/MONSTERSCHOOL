@@ -12,7 +12,7 @@ public partial class BasicEnemyRun : State
     [Export] public Timer WanderTimerRun = new();
 
     //Export variable for raycast
-    [Export] public RayCast2D raycast = new();
+    [Export] public Node2D RaycastGroup = new();
 
     //Variable for movement direction
     public Vector2 Direction = new();
@@ -21,7 +21,7 @@ public partial class BasicEnemyRun : State
     public RandomNumberGenerator r = new();
 
     //variable for gravity
-    public float gravity = 980 * 20;
+    public float gravity = 980;
 
     //Variable for direction change
     public bool ChangeDirectionCheck;
@@ -36,6 +36,7 @@ public partial class BasicEnemyRun : State
         WanderTimerRun.Start();
         Direction = RandomiseDirection();
         ChangeDirectionCheck = true;
+        StateAnimation.Play(Name);
     }
 
     /// <summary>
@@ -60,16 +61,29 @@ public partial class BasicEnemyRun : State
             velocity.Y += gravity * (float)delta;
         }
 
-        if (raycast.IsColliding() && ChangeDirectionCheck) 
+        foreach (RayCast2D raycast in RaycastGroup.GetChildren())
         {
-            ChangeDirectionCheck = false;
-            ChangeDirection();
-        }
-        else if (!raycast.IsColliding())
-        {
-            ChangeDirectionCheck = true;
+            if (raycast.IsColliding() && ChangeDirectionCheck)
+            {
+                ChangeDirectionCheck = false;
+                ChangeDirection();
+            }
+            else if (!raycast.IsColliding())
+            {
+                ChangeDirectionCheck = true;
+            }
         }
 
+        if (Direction == Vector2.Left)
+        {
+            StateSprite.FlipH = true;
+        }
+        else if (Direction == Vector2.Right)
+        {
+            StateSprite.FlipH = false;
+        }
+
+        RaycastGroup.Scale = new Vector2(Direction.X, 1);
         velocity.X = Direction.X * MovementSpeed;
 
         SubjectBody.Velocity = velocity;
@@ -121,7 +135,6 @@ public partial class BasicEnemyRun : State
     public Vector2 ChangeDirection()
     {
         Direction.X = -Direction.X;
-        raycast.Scale = new Vector2(Direction.X, 1);
         return Direction;
     }
 }

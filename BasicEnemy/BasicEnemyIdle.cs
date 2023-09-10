@@ -10,6 +10,9 @@ public partial class BasicEnemyIdle : State
     //Variable for randomness
     public RandomNumberGenerator r = new();
 
+    //Variable for gravity
+    public float gravity = 980;
+
     /// <summary>
     /// Function for entering the state
     /// </summary>
@@ -18,6 +21,7 @@ public partial class BasicEnemyIdle : State
         GD.Print($"{Name} entered.");
         RandomiseWanderTimer();
         WanderTimerIdle.Start();
+        StateAnimation.Play(Name);
     }
 
     /// <summary>
@@ -40,6 +44,10 @@ public partial class BasicEnemyIdle : State
             velocity.X = 0;
         }
 
+        if (!SubjectBody.IsOnFloor())
+        {
+            velocity.Y += gravity * (float)delta;
+        }
         SubjectBody.Velocity = velocity;
     }
 

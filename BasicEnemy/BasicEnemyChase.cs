@@ -9,7 +9,7 @@ public partial class BasicEnemyChase : State
     [Export] public float MovementSpeed;
 
     //Export variable for raycast
-    [Export] public RayCast2D raycast = new();
+    [Export] public Node2D RaycastGroup = new();
 
     //Export variable for player jump
     [Export] public float JumpStrength;
@@ -21,7 +21,7 @@ public partial class BasicEnemyChase : State
     public CharacterBody2D player = new();
 
     //variable for gravity
-    public float gravity = 980 * 20;
+    public float gravity = 980;
 
     /// <summary>
     /// Function for entering the state
@@ -30,6 +30,7 @@ public partial class BasicEnemyChase : State
     {
         GD.Print($"{Name} entered.");
         player = (CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
+        StateAnimation.Play(Name);
     }
 
     /// <summary>
@@ -55,9 +56,12 @@ public partial class BasicEnemyChase : State
         }
 
         //Jump if there is a wall
-        if (raycast.IsColliding() && SubjectBody.IsOnFloor())
+        foreach (RayCast2D raycast in RaycastGroup.GetChildren())
         {
-            velocity.Y = -JumpStrength;
+            if (raycast.IsColliding() && SubjectBody.IsOnFloor() && SubjectBody.GlobalPosition.DistanceTo(player.GlobalPosition) > 200)
+            {
+                velocity.Y = -JumpStrength;
+            }
         }
 
         //Set direction to the player accordingly
@@ -65,23 +69,27 @@ public partial class BasicEnemyChase : State
         if (Direction.X < 0)
         {
             Direction.X = -1;
+            StateSprite.FlipH = true;
         }
         else if (Direction.X > 0) 
         {
             Direction.X = 1;
+            StateSprite.FlipH = false;
         }
 
         //Set scale to direction
-        raycast.Scale = new Vector2(Direction.X, 1);
+        RaycastGroup.Scale = new Vector2(Direction.X, 1);
 
         //Only move when close enough otherwise stop
         if (SubjectBody.GlobalPosition.DistanceTo(player.GlobalPosition) > 200)
         {
             velocity.X = Direction.X * MovementSpeed;
+            StateAnimation.Play(Name);
         }
         else
         {
             velocity.X = 0;
+            StateAnimation.Play("BasicEnemyIdle");
         }
 
         SubjectBody.Velocity = velocity;
