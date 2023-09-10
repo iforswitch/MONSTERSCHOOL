@@ -51,6 +51,12 @@ public partial class PlayerIdle : State
             EmitSignal(signal: "StateTransition", this, "PlayerJump");
         }
 
+        //Go to PlayerAttack if SubjectBody is attacking
+        if (Input.IsActionPressed("Attack"))
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerAttack");
+        }
+
         SubjectBody.Velocity = velocity;
     }
 
@@ -69,6 +75,6 @@ public partial class PlayerIdle : State
     /// <param name="event"></param>
     public override void UnhandledKeyInput(InputEvent @event)
     {
-        
+       
     }
 }

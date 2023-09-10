@@ -59,6 +59,8 @@ public partial class PlayerRun : State
             EmitSignal(signal: "StateTransition", this, "PlayerFall");
         }
 
+        PivotNode.Scale = new Vector2(Direction.X, 1);
+
         velocity.X = MovementSpeed * Direction.X;
         SubjectBody.Velocity = velocity;
     }

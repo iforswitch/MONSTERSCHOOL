@@ -14,11 +14,17 @@ public partial class BasicEnemyFSM : FSM
     //State variable for the current state
     public State CurrentState = new();
 
+    //Variable for health
+    public float Health;
+
     /// <summary>
 	/// Called when the node enters the scene tree for the first time.
 	/// </summary>
     public override void _Ready()
     {
+        //Set the health
+        Health = MaxHealth;
+
         //Add each child to the PlayerStates dictionary
         foreach (State child in GetChildren())
         {
@@ -45,6 +51,12 @@ public partial class BasicEnemyFSM : FSM
         if (CurrentState != null)
         {
             CurrentState.PhysicsProcess(delta);
+        }
+
+        //Kill body when health is 0
+        if (Health <= 0)
+        {
+            GetParent().QueueFree();
         }
     }
 
@@ -108,5 +120,14 @@ public partial class BasicEnemyFSM : FSM
 
         //Set the current state to the new state
         CurrentState = newState;
+    }
+
+    /// <summary>
+    /// Function for damaging the subject body
+    /// </summary>
+    /// <param name="damage"></param>
+    public override void Hit(float damage)
+    {
+        Health -= damage;
     }
 }

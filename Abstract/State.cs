@@ -12,6 +12,9 @@ public partial class State : Node
     //Export variable for sprite
     [Export] public Sprite2D StateSprite = new();
 
+    //Export variable for raycast
+    [Export] public Node2D PivotNode = new();
+
     //Signal for states to switch
     [Signal] public delegate void StateTransitionEventHandler(State emittingState, string targetState);
 

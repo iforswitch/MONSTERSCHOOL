@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dcv3km5swrrf0"]
+[gd_scene load_steps=23 format=3 uid="uid://dcv3km5swrrf0"]
 
 [ext_resource type="Script" path="res://Player/player.cs" id="1_vg6pi"]
 [ext_resource type="Texture2D" uid="uid://et3ov1yl0qib" path="res://PlayerSprites/_Run.png" id="2_8yeny"]
@@ -8,8 +8,11 @@
 [ext_resource type="Script" path="res://PlayerJump.cs" id="6_u3l7m"]
 [ext_resource type="Script" path="res://Player/PlayerFall.cs" id="7_vbq0n"]
 [ext_resource type="Texture2D" uid="uid://c3kdofesa2f1o" path="res://PlayerSprites/_Idle.png" id="8_0jgwd"]
+[ext_resource type="Script" path="res://PlayerAttack.cs" id="8_f8go7"]
 [ext_resource type="Texture2D" uid="uid://byjoqj84b5887" path="res://PlayerSprites/_Fall.png" id="9_nu7nr"]
 [ext_resource type="Texture2D" uid="uid://g36i6ingn3by" path="res://PlayerSprites/_Jump.png" id="10_c108s"]
+[ext_resource type="Texture2D" uid="uid://cy3f1868iucnv" path="res://PlayerSprites/_Attack.png" id="12_2j1gk"]
+[ext_resource type="Texture2D" uid="uid://c24iwoecnrmnl" path="res://PlayerSprites/_Attack2.png" id="13_8tq77"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kw4nk"]
 radius = 28.0
@@ -93,6 +96,30 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PivotNode/Hitbox/CollisionPolygon2D:polygon")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedVector2Array(173, 40, 211, 34, 257, -3, 266, -92, 311, -36, 312, 54, 278, 96, 230, 95, 151, 60)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PivotNode/Hitbox:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_415tn"]
@@ -218,8 +245,138 @@ tracks/2/keys = {
 "values": [0, 1, 2]
 }
 
+[sub_resource type="Animation" id="Animation_uslsn"]
+resource_name = "PlayerAttack"
+length = 0.35
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("12_2j1gk")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PivotNode/Hitbox/CollisionPolygon2D:polygon")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(), PackedVector2Array(150, 49, 274, 86, 306, 60, 308, -15, 243, -112, 113, -127, -14, -93, 49, -89, 130, -75, 185, -14), PackedVector2Array(173, 40, 211, 34, 257, -3, 266, -92, 311, -36, 312, 54, 278, 96, 230, 95, 151, 60), PackedVector2Array(164, 29, 290, 93, 235, 96, 143, 51), PackedVector2Array()]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PivotNode/Hitbox:monitoring")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_rgrhu"]
+resource_name = "PlayerAttack_2"
+length = 0.55
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("13_8tq77")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PivotNode/Hitbox:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PivotNode/Hitbox/CollisionPolygon2D:polygon")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.5, 0.55),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [PackedVector2Array(), PackedVector2Array(35, -111, 172, -106, 241, -71, 278, 13, 240, 51, 117, 87, -52, 94, -123, 86, -46, 9, 62, 22, 156, 6, 197, -28, 175, -59), PackedVector2Array(189, 25, 92, 31, -43, -6, -142, 89, 40, 72, 159, 56), PackedVector2Array(-140, 92, -56, 3, 12, 25, -110, 99), PackedVector2Array(-140, 92, -68, 16, -42, 25, -110, 99), PackedVector2Array()]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r6n7m"]
 _data = {
+"PlayerAttack": SubResource("Animation_uslsn"),
+"PlayerAttack_2": SubResource("Animation_rgrhu"),
 "PlayerFall": SubResource("Animation_rjc1j"),
 "PlayerIdle": SubResource("Animation_415tn"),
 "PlayerJump": SubResource("Animation_sxups"),
@@ -250,12 +407,13 @@ script = ExtResource("4_myjb0")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 
-[node name="PlayerRun" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite")]
+[node name="PlayerRun" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode")]
 script = ExtResource("5_vpwgo")
 MovementSpeed = 300.0
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
+PivotNode = NodePath("../../PivotNode")
 
 [node name="PlayerFall" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite")]
 script = ExtResource("7_vbq0n")
@@ -271,6 +429,17 @@ JumpStrength = 700.0
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
+
+[node name="PlayerAttack" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("AttackBuffer", "SubjectBody", "StateAnimation", "StateSprite")]
+script = ExtResource("8_f8go7")
+damage = 25.0
+AttackBuffer = NodePath("AttackBuffer")
+SubjectBody = NodePath("../..")
+StateAnimation = NodePath("../../AnimationPlayer")
+StateSprite = NodePath("../../Sprite2D")
+
+[node name="AttackBuffer" type="Timer" parent="PlayerFSM/PlayerAttack"]
+one_shot = true
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 8
@@ -295,3 +464,18 @@ vertical_alignment = 1
 libraries = {
 "": SubResource("AnimationLibrary_r6n7m")
 }
+
+[node name="PivotNode" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="PivotNode"]
+position = Vector2(2, 0)
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PivotNode/Hitbox"]
+polygon = PackedVector2Array(173, 40, 211, 34, 257, -3, 266, -92, 311, -36, 312, 54, 278, 96, 230, 95, 151, 60)
+
+[connection signal="timeout" from="PlayerFSM/PlayerAttack/AttackBuffer" to="PlayerFSM/PlayerAttack" method="OnAttackBufferTimeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="PlayerFSM/PlayerAttack" method="OnAnimationPlayerFinished"]
+[connection signal="body_entered" from="PivotNode/Hitbox" to="PlayerFSM/PlayerAttack" method="OnHitboxEntered"]
