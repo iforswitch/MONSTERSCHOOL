@@ -1,15 +1,23 @@
 using Godot;
 using System;
 
+
 //Inherits State class
-public partial class PlayerIdle : State
+public partial class PlayerRun : State
 {
+    //Export variable for player movement speed
+    [Export] public float MovementSpeed;
+
+    //Variable for movement direction
+    public Vector2 Direction = new();
+
     /// <summary>
     /// Function for entering the state
     /// </summary>
     public override void StateEnter()
     {
         GD.Print($"{Name} entered.");
+        StateAnimation.Play(Name);
     }
 
     /// <summary>
@@ -27,21 +35,16 @@ public partial class PlayerIdle : State
     public override void PhysicsProcess(double delta)
     {
         Vector2 velocity = SubjectBody.Velocity;
-        if (velocity.X != 0)
+        if (Input.IsActionPressed("MoveLeft"))
         {
-            velocity.X = 0;
+            Direction = Vector2.Left;
+            StateSprite.FlipH = true;
         }
 
-        //Transition to PlayerRun state if moving
-        if (Input.IsActionPressed("MoveLeft") || Input.IsActionPressed("MoveRight"))
+        if (Input.IsActionPressed("MoveRight"))
         {
-            EmitSignal(signal: "StateTransition", this, "PlayerRun");
-        }
-
-        //Go to PlayerFall if SubjectBody is not grounded
-        if (!SubjectBody.IsOnFloor())
-        {
-            EmitSignal(signal: "StateTransition", this, "PlayerFall");
+            Direction = Vector2.Right;
+            StateSprite.FlipH = false;
         }
 
         //Go to PlayerJump if SubjectBody is jumping
@@ -50,6 +53,13 @@ public partial class PlayerIdle : State
             EmitSignal(signal: "StateTransition", this, "PlayerJump");
         }
 
+        //Go to PlayerFall if not grounded
+        if (!SubjectBody.IsOnFloor())
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerFall");
+        }
+
+        velocity.X = MovementSpeed * Direction.X;
         SubjectBody.Velocity = velocity;
     }
 
@@ -68,6 +78,10 @@ public partial class PlayerIdle : State
     /// <param name="event"></param>
     public override void UnhandledKeyInput(InputEvent @event)
     {
-        
+        //Transition to PlayerIdle state if not moving
+        if (@event.IsActionReleased("MoveLeft") || @event.IsActionReleased("MoveRight"))
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerIdle");
+        }
     }
 }

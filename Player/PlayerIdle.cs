@@ -2,23 +2,15 @@ using Godot;
 using System;
 
 //Inherits State class
-public partial class PlayerFall : State
+public partial class PlayerIdle : State
 {
-    //Export variable for player movement speed
-    [Export] public float MovementSpeed;
-
-    //Variable for movement direction
-    public Vector2 Direction = new();
-
-    //variable for gravity
-    public float gravity = 980;
-
     /// <summary>
     /// Function for entering the state
     /// </summary>
     public override void StateEnter()
     {
         GD.Print($"{Name} entered.");
+        StateAnimation.Play(Name);
     }
 
     /// <summary>
@@ -36,31 +28,29 @@ public partial class PlayerFall : State
     public override void PhysicsProcess(double delta)
     {
         Vector2 velocity = SubjectBody.Velocity;
-
-        //Gravity
-        velocity.Y += gravity * (float)delta;
-
-        //Go to PlayerIdle when grounded
-        if (SubjectBody.IsOnFloor())
+        if (velocity.X != 0)
         {
-            EmitSignal(signal: "StateTransition", this, "PlayerIdle");
+            velocity.X = 0;
         }
 
-        //Horizontal movement whilst in the air
-        if (Input.IsActionPressed("MoveLeft"))
+        //Transition to PlayerRun state if moving
+        if (Input.IsActionPressed("MoveLeft") || Input.IsActionPressed("MoveRight"))
         {
-            Direction = Vector2.Left;
-        }
-        else if (Input.IsActionPressed("MoveRight"))
-        {
-            Direction = Vector2.Right;
-        }
-        else 
-        {
-            Direction = Vector2.Zero;
+            EmitSignal(signal: "StateTransition", this, "PlayerRun");
         }
 
-        velocity.X = MovementSpeed * Direction.X;
+        //Go to PlayerFall if SubjectBody is not grounded
+        if (!SubjectBody.IsOnFloor())
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerFall");
+        }
+
+        //Go to PlayerJump if SubjectBody is jumping
+        if (Input.IsActionPressed("MoveJump") && SubjectBody.IsOnFloor())
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerJump");
+        }
+
         SubjectBody.Velocity = velocity;
     }
 
@@ -79,6 +69,6 @@ public partial class PlayerFall : State
     /// <param name="event"></param>
     public override void UnhandledKeyInput(InputEvent @event)
     {
-
+        
     }
 }

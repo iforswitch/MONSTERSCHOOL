@@ -1,22 +1,22 @@
 [gd_scene load_steps=9 format=3 uid="uid://bokud5uqybngt"]
 
+[ext_resource type="Script" path="res://BasicEnemy/basic_enemy.cs" id="1_g5is0"]
 [ext_resource type="Texture2D" uid="uid://kumntc76botv" path="res://icon.svg" id="1_ggcrt"]
-[ext_resource type="Script" path="res://basic_enemy.cs" id="1_p8rw3"]
-[ext_resource type="Script" path="res://BasicEnemyFSM.cs" id="3_51niu"]
-[ext_resource type="Script" path="res://BasicEnemyIdle.cs" id="4_a5o55"]
-[ext_resource type="Script" path="res://BasicEnemyRun.cs" id="5_tgr7d"]
-[ext_resource type="Script" path="res://BasicEnemyChase.cs" id="6_qh803"]
+[ext_resource type="Script" path="res://BasicEnemy/BasicEnemyFSM.cs" id="3_jjnky"]
+[ext_resource type="Script" path="res://BasicEnemy/BasicEnemyIdle.cs" id="4_uok5i"]
+[ext_resource type="Script" path="res://BasicEnemy/BasicEnemyRun.cs" id="5_fb0sf"]
+[ext_resource type="Script" path="res://BasicEnemy/BasicEnemyChase.cs" id="6_n7xub"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c6hi0"]
 size = Vector2(128, 128)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lj51f"]
-radius = 384.0
+radius = 274.235
 
 [node name="BasicEnemy" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 8
-script = ExtResource("1_p8rw3")
+script = ExtResource("1_g5is0")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 self_modulate = Color(1, 1, 0, 1)
@@ -31,12 +31,12 @@ texture = ExtResource("1_ggcrt")
 shape = SubResource("RectangleShape2D_c6hi0")
 
 [node name="BasicEnemyFSM" type="Node2D" parent="." node_paths=PackedStringArray("StateText", "InitialState")]
-script = ExtResource("3_51niu")
+script = ExtResource("3_jjnky")
 StateText = NodePath("../Label")
 InitialState = NodePath("BasicEnemyIdle")
 
 [node name="BasicEnemyIdle" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerIdle", "SubjectBody")]
-script = ExtResource("4_a5o55")
+script = ExtResource("4_uok5i")
 WanderTimerIdle = NodePath("WanderTimerIdle")
 SubjectBody = NodePath("../..")
 
@@ -44,7 +44,7 @@ SubjectBody = NodePath("../..")
 one_shot = true
 
 [node name="BasicEnemyRun" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerRun", "raycast", "SubjectBody")]
-script = ExtResource("5_tgr7d")
+script = ExtResource("5_fb0sf")
 MovementSpeed = 300.0
 WanderTimerRun = NodePath("WanderTimerRun")
 raycast = NodePath("../../RayCast2D")
@@ -54,7 +54,7 @@ SubjectBody = NodePath("../..")
 one_shot = true
 
 [node name="BasicEnemyChase" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("raycast", "SubjectBody")]
-script = ExtResource("6_qh803")
+script = ExtResource("6_n7xub")
 MovementSpeed = 200.0
 raycast = NodePath("../../RayCast2D")
 JumpStrength = 3000.0

@@ -6,6 +6,12 @@ public partial class State : Node
     //Export variable for the subject body
 	[Export] public CharacterBody2D SubjectBody = new();
 
+    //Export variable for state animations
+    [Export] public AnimationPlayer StateAnimation = new();
+
+    //Export variable for sprite
+    [Export] public Sprite2D StateSprite = new();
+
     //Signal for states to switch
     [Signal] public delegate void StateTransitionEventHandler(State emittingState, string targetState);
 

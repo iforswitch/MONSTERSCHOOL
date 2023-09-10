@@ -2,19 +2,13 @@ using Godot;
 using System;
 
 //Inherits State class
-public partial class PlayerJump : State
+public partial class PlayerFall : State
 {
     //Export variable for player movement speed
     [Export] public float MovementSpeed;
 
-    //Export variable for player jump
-    [Export] public float JumpStrength;
-
     //Variable for movement direction
     public Vector2 Direction = new();
-
-    //Variable for checking falling
-    public bool isfalling;
 
     //variable for gravity
     public float gravity = 980;
@@ -24,7 +18,6 @@ public partial class PlayerJump : State
     /// </summary>
     public override void StateEnter()
     {
-        isfalling = false;
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
     }
@@ -45,22 +38,13 @@ public partial class PlayerJump : State
     {
         Vector2 velocity = SubjectBody.Velocity;
 
-        //Only jump if not falling
-        if (Input.IsActionPressed("MoveJump") && !isfalling)
-        {
-            isfalling = true;
-            velocity.Y = -JumpStrength;
-        }
+        //Gravity
+        velocity.Y += gravity * (float)delta;
 
-        if (isfalling)
+        //Go to PlayerIdle when grounded
+        if (SubjectBody.IsOnFloor())
         {
-            velocity.Y += gravity * (float)delta;
-        }
-
-        //Go to PlayerFall when y position is increasing
-        if (velocity.Y > 0)
-        {
-            EmitSignal(signal: "StateTransition", this, "PlayerFall");
+            EmitSignal(signal: "StateTransition", this, "PlayerIdle");
         }
 
         //Horizontal movement whilst in the air
@@ -74,7 +58,7 @@ public partial class PlayerJump : State
             Direction = Vector2.Right;
             StateSprite.FlipH = false;
         }
-        else
+        else 
         {
             Direction = Vector2.Zero;
         }
