@@ -128,16 +128,20 @@ public partial class PlayerFSM : FSM
     /// <param name="damage"></param>
     public override void Hit(float damage)
     {
-        if (Health > 0)
+        //Invulnerable during roll
+        if (CurrentState != PlayerStates.GetValueOrDefault("PlayerRoll"))
         {
-            OnStateTransition(emittingState: CurrentState, targetState: "PlayerHurt");
-        }
-        else if (Health <= 0 && !Dead)
-        {
-            Dead = true;
-            OnStateTransition(emittingState: CurrentState, targetState: "PlayerDeath");
-        }
+            if (Health > 0)
+            {
+                OnStateTransition(emittingState: CurrentState, targetState: "PlayerHurt");
+            }
+            else if (Health <= 0 && !Dead)
+            {
+                Dead = true;
+                OnStateTransition(emittingState: CurrentState, targetState: "PlayerDeath");
+            }
 
-        Health -= damage;
+            Health -= damage;
+        }
     }
 }

@@ -1,11 +1,10 @@
 using Godot;
 using System;
 
-//Inherits State class
-public partial class PlayerFall : State
+public partial class SuperAttack : State
 {
-    //Export variable for player movement speed
-    [Export] public float MovementSpeed;
+    //Export variable for rolling speed
+    [Export] public float RollSpeed;
 
     //Variable for movement direction
     public Vector2 Direction = new();
@@ -37,42 +36,29 @@ public partial class PlayerFall : State
     public override void PhysicsProcess(double delta)
     {
         Vector2 velocity = SubjectBody.Velocity;
-
-        //Gravity
         velocity.Y += gravity * (float)delta;
 
-        //Go to PlayerIdle when grounded
-        if (SubjectBody.IsOnFloor())
-        {
-            EmitSignal(signal: "StateTransition", this, "PlayerIdle");
-        }
-
-        //Horizontal movement whilst in the air
-        if (Input.IsActionPressed("MoveLeft"))
+        //Sprite direction check
+        if (PivotNode.Scale.X == -1)
         {
             Direction = Vector2.Left;
             StateSprite.FlipH = true;
         }
-        else if (Input.IsActionPressed("MoveRight"))
+
+        if (PivotNode.Scale.X == 1)
         {
             Direction = Vector2.Right;
             StateSprite.FlipH = false;
         }
-        else 
-        {
-            Direction = Vector2.Zero;
-        }
 
-        //Go to PlayerAttack if SubjectBody is attacking
-        if (Input.IsActionPressed("Attack"))
+        //Roll a distance
+        if (Direction.X == 0)
         {
-            EmitSignal(signal: "StateTransition", this, "PlayerAttack");
+            velocity.X = RollSpeed * PivotNode.Scale.X;
         }
-
-        //Go to PlayerRoll if SubjectBody is rolling
-        if (Input.IsActionPressed("Roll") && RollCooldown.TimeLeft == 0)
+        else
         {
-            EmitSignal(signal: "StateTransition", this, "PlayerRoll");
+            velocity.X = RollSpeed * Direction.X;
         }
 
         if (Direction.X != 0)
@@ -80,7 +66,20 @@ public partial class PlayerFall : State
             PivotNode.Scale = new Vector2(Direction.X, 1);
         }
 
-        velocity.X = MovementSpeed * Direction.X;
         SubjectBody.Velocity = velocity;
+    }
+
+    /// <summary>
+    /// Function to check when the attack animation has finished
+    /// </summary>
+    /// <param name="anim_name"></param>
+    public void OnAnimationPlayerFinished(string anim_name)
+    {
+        //Go to idle
+        if (anim_name == Name)
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerIdle");
+            RollCooldown.Start();
+        }
     }
 }

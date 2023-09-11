@@ -57,6 +57,27 @@ public partial class PlayerIdle : State
             EmitSignal(signal: "StateTransition", this, "PlayerAttack");
         }
 
+        //Go to PlayerRoll if SubjectBody is rolling
+        if (Input.IsActionPressed("Roll") && RollCooldown.TimeLeft == 0)
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerRoll");
+        }
+
+        if (PivotNode.Scale.X == -1)
+        {
+            StateSprite.FlipH = true;
+        }
+
+        if (PivotNode.Scale.X == 1)
+        {
+            StateSprite.FlipH = false;
+        }
+
+        if (PivotNode.Scale.X != 0)
+        {
+            PivotNode.Scale = new Vector2(PivotNode.Scale.X, 1);
+        }
+
         SubjectBody.Velocity = velocity;
     }
 

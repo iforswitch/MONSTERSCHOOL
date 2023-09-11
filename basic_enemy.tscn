@@ -516,7 +516,7 @@ PivotNode = NodePath("../../Raycasts")
 
 [node name="BasicEnemyAttack" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("AttackHitbox", "SubjectBody", "StateAnimation", "StateSprite", "PivotNode")]
 script = ExtResource("9_ljrxi")
-damage = 50.0
+damage = 20.0
 AttackHitbox = NodePath("../../PivotNode/EnemyHitbox")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")

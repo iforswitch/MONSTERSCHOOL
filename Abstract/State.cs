@@ -15,6 +15,9 @@ public partial class State : Node
     //Export variable for raycast
     [Export] public Node2D PivotNode = new();
 
+    //Export variable for roll cooldown timer
+    [Export] public Timer RollCooldown = new();
+
     //Signal for states to switch
     [Signal] public delegate void StateTransitionEventHandler(State emittingState, string targetState);
 

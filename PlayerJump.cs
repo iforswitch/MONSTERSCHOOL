@@ -85,6 +85,12 @@ public partial class PlayerJump : State
             EmitSignal(signal: "StateTransition", this, "PlayerAttack");
         }
 
+        //Go to PlayerRoll if SubjectBody is rolling
+        if (Input.IsActionPressed("Roll") && RollCooldown.TimeLeft == 0)
+        {
+            EmitSignal(signal: "StateTransition", this, "PlayerRoll");
+        }
+
         if (Direction.X != 0)
         {
             PivotNode.Scale = new Vector2(Direction.X, 1);
