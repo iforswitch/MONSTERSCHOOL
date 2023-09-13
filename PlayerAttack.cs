@@ -67,8 +67,6 @@ public partial class PlayerAttack : State
             CanHit = true;
         }
 
-        GD.Print($"attack {PlayerGlobalsVariable.Damage}");
-
         SubjectBody.Velocity = velocity;
     }
 

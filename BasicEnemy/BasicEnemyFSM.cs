@@ -20,6 +20,9 @@ public partial class BasicEnemyFSM : FSM
     //Variable for death
     public bool Dead;
 
+    //Variable for global damage indicator
+    public DamageIndicator DamageIndicatorGlobal = new();
+
     /// <summary>
 	/// Called when the node enters the scene tree for the first time.
 	/// </summary>
@@ -28,8 +31,11 @@ public partial class BasicEnemyFSM : FSM
         //Set the health
         Health = MaxHealth;
 
-        //Set the deatg
+        //Set the death
         Dead = false;
+
+        //Set the damage indicator global
+        DamageIndicatorGlobal = GetNode<DamageIndicator>("/root/DamageIndicator");
 
         //Add each child to the PlayerStates dictionary
         foreach (State child in GetChildren())
@@ -145,6 +151,7 @@ public partial class BasicEnemyFSM : FSM
             OnStateTransition(emittingState: CurrentState, targetState: "BasicEnemyDead");
         }
 
+        DamageIndicatorGlobal.EmitSignal("DamageIndicate", GetParent(), -damage);
         Health -= damage;
     }
 }

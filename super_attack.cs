@@ -20,10 +20,17 @@ public partial class super_attack : CharacterBody2D
     //Variable to check if hit is available
     public bool CanHit;
 
+    //Variable for
+    PlayerGlobals PlayerGlobalsVariable = new();
+
     public override void _Ready()
     {
         CanHit = true;
         parent = (Node2D)GetParent();
+
+        //Set global player variables
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+        damage = PlayerGlobalsVariable.Damage;
     }
 
     public override void _PhysicsProcess(double delta)

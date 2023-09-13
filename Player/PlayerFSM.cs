@@ -176,13 +176,30 @@ public partial class PlayerFSM : FSM
     /// </summary>
     public void OnSpecialAttack3()
     {
-        PlayerGlobalsVariable.Damage *= 2;
-        PlayerGlobalsVariable.Speed *= 2;
-        PlayerGlobalsVariable.JumpStrength *= 1.25f;
-        PlayerGlobalsVariable.RollSpeed *= 1.25f;
-        for (int i = 0; i < SkillTimers.Length; i++)
+        if (PlayerGlobalsVariable.IsSpecialAttack3 == 1)
         {
-            SkillTimers[i].WaitTime *= PlayerGlobalsVariable.Cooldown;
+            PlayerGlobalsVariable.JumpStrength *= 1.25f;
+            PlayerGlobalsVariable.Damage *= 2;
+            PlayerGlobalsVariable.Speed *= 2;
+            PlayerGlobalsVariable.JumpStrength *= 1.25f;
+            PlayerGlobalsVariable.RollSpeed *= 1.25f;
+            for (int i = 0; i < SkillTimers.Length; i++)
+            {
+                SkillTimers[i].WaitTime *= PlayerGlobalsVariable.Cooldown;
+            }
+        }
+
+        else 
+        {
+            PlayerGlobalsVariable.JumpStrength /= 1.25f;
+            PlayerGlobalsVariable.Damage /= 2;
+            PlayerGlobalsVariable.Speed /= 2;
+            PlayerGlobalsVariable.JumpStrength /= 1.25f;
+            PlayerGlobalsVariable.RollSpeed /= 1.25f;
+            for (int i = 0; i < SkillTimers.Length; i++)
+            {
+                SkillTimers[i].WaitTime /= PlayerGlobalsVariable.Cooldown;
+            }
         }
     }
 

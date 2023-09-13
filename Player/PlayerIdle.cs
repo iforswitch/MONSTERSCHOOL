@@ -16,6 +16,9 @@ public partial class PlayerIdle : State
     {
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+
+        //Set the global player variable
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
     }
 
     /// <summary>

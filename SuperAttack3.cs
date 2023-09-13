@@ -4,8 +4,11 @@ using System.Runtime.CompilerServices;
 
 public partial class SuperAttack3 : State
 {
+    //Export timer variable for the cooldown
+    [Export] public Timer SuperAttack3CD = new();
+
     //Local timer variable
-    public Timer SuperAttack3Cooldown = new();
+    public Timer SuperAttack3Timer = new();
 
     //Variable for state enter check
     public bool entered;
@@ -19,15 +22,24 @@ public partial class SuperAttack3 : State
     public override void StateEnter()
     {
         GD.Print($"{Name} entered.");
-        StateAnimation.Play(Name);
-        SuperAttack3Cooldown = RollCooldown;
+        SuperAttack3Timer = RollCooldown;
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
-        PlayerGlobalsVariable.EmitSignal("SpecialAttack3");
         CharacterBody2D parent = (CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
         Node2D instanceEffect = (Node2D)SuperAttack3Effect.Instantiate();
         parent.AddChild(instanceEffect);
         instanceEffect.GlobalPosition = parent.GlobalPosition;
-        GD.Print(parent.GlobalPosition, instanceEffect.GlobalPosition, parent.Position, instanceEffect.Position);
+        PlayerGlobalsVariable.IsSpecialAttack3 *= -1;
+
+        if (PlayerGlobalsVariable.IsSpecialAttack3 == 1)
+        {
+            StateAnimation.Play(Name);
+        }
+        else
+        {
+            StateAnimation.Stop();
+        }
+
+        PlayerGlobalsVariable.EmitSignal("SpecialAttack3");
         entered = true;
     }
 
@@ -38,8 +50,17 @@ public partial class SuperAttack3 : State
     {
         GD.Print($"{Name} exited.");
 
-        //Cooldown start
-        SuperAttack3Cooldown.Start();
+        //Conditions to turn off / on the ability
+        if (PlayerGlobalsVariable.IsSpecialAttack3 == 1)
+        {
+            SuperAttack3Timer.Start();
+        }
+        else
+        {
+            SuperAttack3Timer.Stop();
+        }
+
+        SuperAttack3CD.Start();
     }
 
     /// <summary>

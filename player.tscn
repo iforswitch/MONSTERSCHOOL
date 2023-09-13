@@ -314,6 +314,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:collision_layer")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_rjc1j"]
 resource_name = "PlayerFall"
@@ -366,6 +378,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:collision_layer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
 }
 
 [sub_resource type="Animation" id="Animation_6d811"]
@@ -447,6 +471,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:collision_layer")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
 }
 
 [sub_resource type="Animation" id="Animation_sxups"]
@@ -729,6 +765,18 @@ tracks/9/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath(".:collision_layer")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
 
 [sub_resource type="Animation" id="Animation_l42gd"]
 resource_name = "SuperAttack"
@@ -1003,7 +1051,7 @@ MaxHealth = 100.0
 script = ExtResource("4_myjb0")
 SpecialAttackCooldown = NodePath("../SuperAttack/SuperAttack")
 SpecialAttack2Cooldown = NodePath("../SuperAttack2/SuperAttack2")
-SpecialAttack3Cooldown = NodePath("../SuperAttack3/SuperAttack3")
+SpecialAttack3Cooldown = NodePath("../SuperAttack3/SuperAttack3CD")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
@@ -1112,8 +1160,9 @@ RollCooldown = NodePath("SuperAttack2")
 wait_time = 2.0
 one_shot = true
 
-[node name="SuperAttack3" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
+[node name="SuperAttack3" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SuperAttack3CD", "SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
 script = ExtResource("15_dwlqb")
+SuperAttack3CD = NodePath("SuperAttack3CD")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("SuperAttack3AnimPlay")
 StateSprite = NodePath("../../Sprite2D")
@@ -1128,6 +1177,9 @@ root_node = NodePath("../../..")
 libraries = {
 "": SubResource("AnimationLibrary_r6n7m")
 }
+
+[node name="SuperAttack3CD" type="Timer" parent="PlayerFSM/SuperAttack3"]
+one_shot = true
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 8
