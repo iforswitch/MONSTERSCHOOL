@@ -32,6 +32,11 @@ public partial class PlayerJump : State
         isfalling = false;
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+
+        //Set the global player variables
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+        MovementSpeed = PlayerGlobalsVariable.Speed;
+        JumpStrength = PlayerGlobalsVariable.JumpStrength;
     }
 
     /// <summary>

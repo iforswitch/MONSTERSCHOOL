@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-SuperAttackGlobal="*res://SuperAttackGlobal.cs"
+PlayerGlobals="*res://PlayerGlobals.cs"
+DamageIndicator="*res://DamageIndicator.cs"
 
 [dotnet]
 

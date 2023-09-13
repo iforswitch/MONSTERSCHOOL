@@ -8,7 +8,7 @@ public partial class PlayerAttack : State
     [Export] public float MovementSpeed;
 
     //Export variable for damage
-    [Export] public float damage;
+    public float damage;
 
     //Export variable for attack buffering
     [Export] public Timer AttackBuffer = new();
@@ -33,6 +33,10 @@ public partial class PlayerAttack : State
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
         CanHit = true;
+
+        //Set global player variables
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+        damage = PlayerGlobalsVariable.Damage;
     }
 
     /// <summary>
@@ -62,6 +66,8 @@ public partial class PlayerAttack : State
             AttackBuffer.Stop();
             CanHit = true;
         }
+
+        GD.Print($"attack {PlayerGlobalsVariable.Damage}");
 
         SubjectBody.Velocity = velocity;
     }

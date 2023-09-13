@@ -18,9 +18,6 @@ public partial class SuperAttack2 : State
     //variable for gravity
     public float gravity = 980;
 
-    //variable for super attack
-    PackedScene SuperAttackScene = GD.Load<PackedScene>("res://super_attack.tscn");
-
     //Local timer variable
     public Timer SuperAttack2Cooldown = new();
 

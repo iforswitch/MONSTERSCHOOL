@@ -21,6 +21,9 @@ public partial class State : Node
     //Signal for states to switch
     [Signal] public delegate void StateTransitionEventHandler(State emittingState, string targetState);
 
+    //Variable for global player variables
+    public PlayerGlobals PlayerGlobalsVariable = new();
+
     /// <summary>
     /// Virtual function for entering the state
     /// </summary>

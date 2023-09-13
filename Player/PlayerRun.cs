@@ -23,6 +23,10 @@ public partial class PlayerRun : State
     {
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+
+        //Set the global player variables
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+        MovementSpeed = PlayerGlobalsVariable.Speed;
     }
 
     /// <summary>

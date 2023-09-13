@@ -49,8 +49,8 @@ public partial class super_attack : CharacterBody2D
 		if (SuperAttackProjectile != null)
 		{
             Node2D instance = (Node2D)SuperAttackProjectile.Instantiate();
-            instance.GlobalPosition = Position;
-			GetParent().AddChild(instance);
+            GetParent().AddChild(instance);
+            instance.GlobalPosition = GlobalPosition;
 		}	
     }
 

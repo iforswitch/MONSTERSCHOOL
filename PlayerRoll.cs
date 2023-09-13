@@ -19,6 +19,10 @@ public partial class PlayerRoll : State
     {
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+
+        //Set the global player variables
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+        RollSpeed = PlayerGlobalsVariable.RollSpeed;
     }
 
     /// <summary>

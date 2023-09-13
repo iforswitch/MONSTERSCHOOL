@@ -8,8 +8,13 @@ public partial class PlayerFSM : FSM
     //Export variable to show the current state
     [Export] public Label StateText = new();
 
+    //Export variable for skill timers
+    [Export] public Timer RollTimer = new();
+    [Export] public Timer SuperAttack1Timer = new();
+    [Export] public Timer SuperAttack2Timer = new();
+
     //Dictionary variable for all states of the player
-	public Dictionary<string, State> PlayerStates = new();
+    public Dictionary<string, State> PlayerStates = new();
 
     //State variable for the current state
     public State CurrentState = new();
@@ -20,13 +25,30 @@ public partial class PlayerFSM : FSM
     //Variable for death
     public bool Dead;
 
+    //Variable for global player variables
+    PlayerGlobals PlayerGlobalsVariable = new();
+
+    //Array for skill timers
+    Timer[] SkillTimers = new Timer[3];
+
     /// <summary>
 	/// Called when the node enters the scene tree for the first time.
 	/// </summary>
     public override void _Ready()
 	{
+        //Set the global player variables
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+
+        //Connect special attack 3 signal
+        PlayerGlobalsVariable.Connect("SpecialAttack3", Callable.From(OnSpecialAttack3));
+
         //Set the health
-        Health = MaxHealth;
+        Health = PlayerGlobalsVariable.MaxHealth;
+
+        //Set the array
+        SkillTimers[0] = RollTimer;
+        SkillTimers[1] = SuperAttack1Timer;
+        SkillTimers[2] = SuperAttack2Timer;
 
         //Set the deatg
         Dead = false;
@@ -146,5 +168,29 @@ public partial class PlayerFSM : FSM
             }
             Health -= damage;
         }
+    }
+
+
+    /// <summary>
+    /// Signal function for special attack 3
+    /// </summary>
+    public void OnSpecialAttack3()
+    {
+        PlayerGlobalsVariable.Damage *= 2;
+        PlayerGlobalsVariable.Speed *= 2;
+        PlayerGlobalsVariable.JumpStrength *= 1.25f;
+        PlayerGlobalsVariable.RollSpeed *= 1.25f;
+        for (int i = 0; i < SkillTimers.Length; i++)
+        {
+            SkillTimers[i].WaitTime *= PlayerGlobalsVariable.Cooldown;
+        }
+    }
+
+    /// <summary>
+    /// Timeout function for special attack 3
+    /// </summary>
+    public void OnSuperAttack3Timeout()
+    {
+        Health -= 10;
     }
 }

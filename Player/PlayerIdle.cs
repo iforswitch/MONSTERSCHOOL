@@ -6,8 +6,8 @@ public partial class PlayerIdle : State
 {
     //Export variable for special attack cooldown timer
     [Export] public Timer SpecialAttackCooldown = new();
-    
     [Export] public Timer SpecialAttack2Cooldown = new();
+    [Export] public Timer SpecialAttack3Cooldown = new();
 
     /// <summary>
     /// Function for entering the state
@@ -77,6 +77,11 @@ public partial class PlayerIdle : State
         if (Input.IsActionPressed("Special2") && SpecialAttack2Cooldown.TimeLeft == 0)
         {
             EmitSignal(signal: "StateTransition", this, "SuperAttack2");
+        }
+
+        if (Input.IsActionPressed("Special3") && SpecialAttack3Cooldown.TimeLeft == 0)
+        {
+            EmitSignal(signal: "StateTransition", this, "SuperAttack3");
         }
 
         if (PivotNode.Scale.X == -1)
