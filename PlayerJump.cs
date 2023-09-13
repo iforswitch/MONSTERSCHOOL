@@ -91,6 +91,12 @@ public partial class PlayerJump : State
             EmitSignal(signal: "StateTransition", this, "PlayerRoll");
         }
 
+        //Go to SuperAttack if SubjectBody is doing SuperAttack
+        if (Input.IsActionPressed("Special1") && RollCooldown.TimeLeft == 0)
+        {
+            EmitSignal(signal: "StateTransition", this, "SuperAttack");
+        }
+
         if (Direction.X != 0)
         {
             PivotNode.Scale = new Vector2(Direction.X, 1);

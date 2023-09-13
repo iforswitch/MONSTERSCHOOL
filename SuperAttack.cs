@@ -6,11 +6,20 @@ public partial class SuperAttack : State
     //Export variable for rolling speed
     [Export] public float RollSpeed;
 
+    //Export variable for effects
+    [Export] public Node2D EffectNodes = new();
+
     //Variable for movement direction
     public Vector2 Direction = new();
 
     //variable for gravity
     public float gravity = 980;
+
+    //variable for super attack
+    PackedScene SuperAttackScene = GD.Load<PackedScene>("res://super_attack.tscn");
+
+    //Local timer variable
+    public Timer SuperAttackCooldown = new();
 
     /// <summary>
     /// Function for entering the state
@@ -19,6 +28,12 @@ public partial class SuperAttack : State
     {
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+        SuperAttackCooldown = RollCooldown;
+        CharacterBody2D parent = (CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
+        Node2D instance = (Node2D)SuperAttackScene.Instantiate();
+        instance.GlobalPosition = parent.GlobalPosition;
+        instance.Scale = new Vector2(instance.Scale.X * PivotNode.Scale.X, instance.Scale.Y); 
+        GetParent().GetParent().GetParent().AddChild(instance);
     }
 
     /// <summary>
@@ -27,6 +42,9 @@ public partial class SuperAttack : State
     public override void StateExit()
     {
         GD.Print($"{Name} exited.");
+
+        //Cooldown start
+        SuperAttackCooldown.Start();
     }
 
     /// <summary>

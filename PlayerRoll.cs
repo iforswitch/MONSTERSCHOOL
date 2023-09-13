@@ -27,6 +27,9 @@ public partial class PlayerRoll : State
     public override void StateExit()
     {
         GD.Print($"{Name} exited.");
+
+        //Cooldown start
+        RollCooldown.Start();
     }
 
     /// <summary>
@@ -79,7 +82,6 @@ public partial class PlayerRoll : State
         if (anim_name == Name)
         {
             EmitSignal(signal: "StateTransition", this, "PlayerIdle");
-            RollCooldown.Start();
         }
     }
 }

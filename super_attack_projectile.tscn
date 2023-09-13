@@ -1,0 +1,160 @@
+[gd_scene load_steps=9 format=3 uid="uid://bc21acwgnvop2"]
+
+[ext_resource type="Texture2D" uid="uid://bhwvbgu3vposr" path="res://PlayerSpecialSprites/SuperAttack.png" id="1_6dmav"]
+[ext_resource type="Script" path="res://super_attack_projectile.cs" id="1_pep6e"]
+[ext_resource type="Shader" path="res://super_attack_projectile.gdshader" id="2_t11cw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k5ol4"]
+resource_local_to_scene = true
+shader = ExtResource("2_t11cw")
+shader_parameter/color = Color(1, 1, 1, 0)
+shader_parameter/flashState = 0.0
+
+[sub_resource type="Animation" id="Animation_w7cv5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_6dmav")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8.05329, 7.0479)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:material:shader_parameter/flashState")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ymr8g"]
+resource_name = "SuperAttackProjectile"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_6dmav")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.248215, 7.0479), Vector2(13.4366, 7.0479), Vector2(8.05329, 7.0479)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.000452069, 92.8812), Vector2(0, -118.132), Vector2(0, -32)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:material:shader_parameter/flashState")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_28vra"]
+resource_name = "SuperAttackProjectileFade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n1kt5"]
+_data = {
+"RESET": SubResource("Animation_w7cv5"),
+"SuperAttackProjectile": SubResource("Animation_ymr8g"),
+"SuperAttackProjectileFade": SubResource("Animation_28vra")
+}
+
+[node name="SuperAttackProjectile" type="Node2D" node_paths=PackedStringArray("AnimPlay", "t")]
+script = ExtResource("1_pep6e")
+AnimPlay = NodePath("Sprite2D/AnimationPlayer")
+t = NodePath("Timer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_k5ol4")
+rotation = -1.5708
+scale = Vector2(8.05329, 7.0479)
+skew = 0.0174533
+texture = ExtResource("1_6dmav")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_n1kt5")
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="animation_finished" from="Sprite2D/AnimationPlayer" to="." method="OnAnimationPlayerFinished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

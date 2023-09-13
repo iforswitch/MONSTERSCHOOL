@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1a2fthkoflq0"]
+
+[ext_resource type="Script" path="res://super_attack.cs" id="1_3d1me"]
+[ext_resource type="Script" path="res://super_attack_body.cs" id="1_p8r37"]
+[ext_resource type="Script" path="res://SuperAttackHitbox.cs" id="2_d5k62"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_px5rr"]
+radius = 128.0
+
+[node name="SuperAttackBody" type="Node2D"]
+script = ExtResource("1_p8r37")
+
+[node name="Trail" type="CharacterBody2D" parent="." node_paths=PackedStringArray("raycast")]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_3d1me")
+damage = 101.0
+raycast = NodePath("RayCast2D")
+
+[node name="Timer" type="Timer" parent="Trail"]
+wait_time = 0.1
+autostart = true
+
+[node name="SuperAttackHitbox" type="Area2D" parent="Trail"]
+collision_mask = 14
+monitorable = false
+script = ExtResource("2_d5k62")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Trail/SuperAttackHitbox"]
+shape = SubResource("CircleShape2D_px5rr")
+
+[node name="RayCast2D" type="RayCast2D" parent="Trail"]
+target_position = Vector2(0, 0)
+collision_mask = 8
+hit_from_inside = true
+
+[connection signal="timeout" from="Trail/Timer" to="Trail" method="OnTimerTimeout"]
+[connection signal="OverlappingBodiesCheck" from="Trail/SuperAttackHitbox" to="Trail" method="OnOverlappingBodiesCheck"]
+[connection signal="body_entered" from="Trail/SuperAttackHitbox" to="Trail" method="SuperAttackHitboxEntered"]

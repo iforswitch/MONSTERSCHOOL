@@ -63,6 +63,12 @@ public partial class PlayerIdle : State
             EmitSignal(signal: "StateTransition", this, "PlayerRoll");
         }
 
+        //Go to SuperAttack if SubjectBody is doing SuperAttack
+        if (Input.IsActionPressed("Special1") && RollCooldown.TimeLeft == 0)
+        {
+            EmitSignal(signal: "StateTransition", this, "SuperAttack");
+        }
+
         if (PivotNode.Scale.X == -1)
         {
             StateSprite.FlipH = true;
