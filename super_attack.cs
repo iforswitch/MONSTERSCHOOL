@@ -17,16 +17,12 @@ public partial class super_attack : CharacterBody2D
     //xport variable for parent
     public Node2D parent = new ();
 
-    //Variable for global signal
-    SuperAttackGlobal superAttackGlobal = new();
-
     //Variable to check if hit is available
     public bool CanHit;
 
     public override void _Ready()
     {
         CanHit = true;
-        superAttackGlobal = GetNode<SuperAttackGlobal>("/root/SuperAttackGlobal");
         parent = (Node2D)GetParent();
     }
 
@@ -38,7 +34,6 @@ public partial class super_attack : CharacterBody2D
         //Checking for wall collisions to start destroying self
         if (raycast.IsColliding())
         {
-            superAttackGlobal.EmitSignal("SuperAttackFinished");
             QueueFree();
         }
 

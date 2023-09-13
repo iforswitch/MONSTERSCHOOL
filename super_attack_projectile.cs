@@ -14,23 +14,10 @@ public partial class super_attack_projectile : Node2D
     //Variable for stopping loop
     public bool Colliding;
 
-    //Variable for global signal
-    SuperAttackGlobal superAttackGlobal = new();
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        //superAttackGlobal = GetNode<SuperAttackGlobal>("/root/SuperAttackGlobal");
-        //superAttackGlobal.Connect("SuperAttackFinished", Callable.From(OnSuperAttackFinished));
         AnimPlay.Play("SuperAttackProjectile");
-    }
-
-    /// <summary>
-    /// Signal function for super attack finishing
-    /// </summary>
-    public void OnSuperAttackFinished()
-    {
-        //AnimPlay.Play("SuperAttackProjectileFade");
     }
 
     /// <summary>

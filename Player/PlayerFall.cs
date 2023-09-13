@@ -10,6 +10,8 @@ public partial class PlayerFall : State
     //Export variable for special attack cooldown timer
     [Export] public Timer SpecialAttackCooldown = new();
 
+    [Export] public Timer SpecialAttack2Cooldown = new();
+
     //Variable for movement direction
     public Vector2 Direction = new();
 
@@ -82,6 +84,11 @@ public partial class PlayerFall : State
         if (Input.IsActionPressed("Special1") && SpecialAttackCooldown.TimeLeft == 0)
         {
             EmitSignal(signal: "StateTransition", this, "SuperAttack");
+        }
+
+        if (Input.IsActionPressed("Special2") && SpecialAttack2Cooldown.TimeLeft == 0)
+        {
+            EmitSignal(signal: "StateTransition", this, "SuperAttack2");
         }
 
         if (Direction.X != 0)

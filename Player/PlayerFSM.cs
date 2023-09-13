@@ -57,6 +57,12 @@ public partial class PlayerFSM : FSM
         if (CurrentState != null)
         {
             CurrentState.PhysicsProcess(delta);
+
+            if (Health <= 0 && !Dead)
+            {
+                Dead = true;
+                OnStateTransition(emittingState: CurrentState, targetState: "PlayerDeath");
+            }
         }
     }
 
@@ -131,16 +137,13 @@ public partial class PlayerFSM : FSM
         //Invulnerable during roll
         if (CurrentState != PlayerStates.GetValueOrDefault("PlayerRoll"))
         {
-            if (Health > 0)
+            if (CurrentState != PlayerStates.GetValueOrDefault("SuperAttack2"))
             {
-                OnStateTransition(emittingState: CurrentState, targetState: "PlayerHurt");
+                if (Health > 0)
+                {
+                    OnStateTransition(emittingState: CurrentState, targetState: "PlayerHurt");
+                }
             }
-            else if (Health <= 0 && !Dead)
-            {
-                Dead = true;
-                OnStateTransition(emittingState: CurrentState, targetState: "PlayerDeath");
-            }
-
             Health -= damage;
         }
     }
