@@ -97,7 +97,6 @@ public partial class SuperAttack : State
         if (anim_name == Name)
         {
             EmitSignal(signal: "StateTransition", this, "PlayerIdle");
-            RollCooldown.Start();
         }
     }
 }

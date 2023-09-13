@@ -10,6 +10,9 @@ public partial class PlayerJump : State
     //Export variable for player jump
     [Export] public float JumpStrength;
 
+    //Export variable for special attack cooldown timer
+    [Export] public Timer SpecialAttackCooldown = new();
+
     //Variable for movement direction
     public Vector2 Direction = new();
 
@@ -92,7 +95,7 @@ public partial class PlayerJump : State
         }
 
         //Go to SuperAttack if SubjectBody is doing SuperAttack
-        if (Input.IsActionPressed("Special1") && RollCooldown.TimeLeft == 0)
+        if (Input.IsActionPressed("Special1") && SpecialAttackCooldown.TimeLeft == 0)
         {
             EmitSignal(signal: "StateTransition", this, "SuperAttack");
         }

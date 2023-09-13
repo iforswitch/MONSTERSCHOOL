@@ -792,36 +792,40 @@ StateText = NodePath("../Label")
 InitialState = NodePath("PlayerIdle")
 MaxHealth = 100.0
 
-[node name="PlayerIdle" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
+[node name="PlayerIdle" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SpecialAttackCooldown", "SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
 script = ExtResource("4_myjb0")
+SpecialAttackCooldown = NodePath("../SuperAttack/SuperAttack")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
 PivotNode = NodePath("../../PivotNode")
 RollCooldown = NodePath("../PlayerRoll/RollCooldown")
 
-[node name="PlayerRun" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
+[node name="PlayerRun" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SpecialAttackCooldown", "SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
 script = ExtResource("5_vpwgo")
 MovementSpeed = 300.0
+SpecialAttackCooldown = NodePath("../SuperAttack/SuperAttack")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
 PivotNode = NodePath("../../PivotNode")
 RollCooldown = NodePath("../PlayerRoll/RollCooldown")
 
-[node name="PlayerFall" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
+[node name="PlayerFall" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SpecialAttackCooldown", "SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
 script = ExtResource("7_vbq0n")
 MovementSpeed = 300.0
+SpecialAttackCooldown = NodePath("../SuperAttack/SuperAttack")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
 PivotNode = NodePath("../../PivotNode")
 RollCooldown = NodePath("../PlayerRoll/RollCooldown")
 
-[node name="PlayerJump" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
+[node name="PlayerJump" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SpecialAttackCooldown", "SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
 script = ExtResource("6_u3l7m")
 MovementSpeed = 300.0
 JumpStrength = 700.0
+SpecialAttackCooldown = NodePath("../SuperAttack/SuperAttack")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 StateSprite = NodePath("../../Sprite2D")
@@ -880,6 +884,7 @@ PivotNode = NodePath("../../PivotNode")
 RollCooldown = NodePath("SuperAttack")
 
 [node name="SuperAttack" type="Timer" parent="PlayerFSM/SuperAttack"]
+wait_time = 2.0
 one_shot = true
 
 [node name="Label" type="Label" parent="."]
