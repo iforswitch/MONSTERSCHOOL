@@ -16,6 +16,9 @@ public partial class PlayerGlobals : Node
 
 	//Stat player global variables
 	public float AttackStat, DexterityStat, HealthStat;
+
+	//Score
+	public int Score;
 	public override void _Ready()
 	{
 		//Main variables
@@ -33,5 +36,8 @@ public partial class PlayerGlobals : Node
 		AttackStat = 0;
 		DexterityStat = 0;
 		HealthStat = 0;
+
+		//Score
+		Score = 0;
 	}
 }

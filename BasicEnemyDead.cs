@@ -17,6 +17,9 @@ public partial class BasicEnemyDead : State
     {
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+
+        //Set global player variables
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
     }
 
     /// <summary>
@@ -64,6 +67,7 @@ public partial class BasicEnemyDead : State
     /// </summary>
     public void OnDeathTimerTimeout()
     {
+        PlayerGlobalsVariable.Score += 1;
         GetParent().GetParent().QueueFree();
     }
 }

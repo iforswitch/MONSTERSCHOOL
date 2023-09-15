@@ -225,12 +225,11 @@ public partial class PlayerFSM : FSM
 
         stat statInstance = (stat)scene.Instantiate();
 
-        //Add ui to player
-        GetParent().AddChild(statInstance);
-        CharacterBody2D parent = (CharacterBody2D)GetParent();
+        //Add stats to ui
+        CanvasLayer parent = (CanvasLayer)GetTree().GetFirstNodeInGroup("StatsUI");
+        parent.AddChild(statInstance);
 
-        //Set ui position to player position
-        statInstance.GlobalPosition = parent.GlobalPosition;
+        //Connect stats signals to function
         statInstance.StatFinished += OnStatFinished;
     }
 
@@ -239,7 +238,6 @@ public partial class PlayerFSM : FSM
     /// </summary>
     public void OnStatFinished()
     {
-        //Unpase game
         GetTree().Paused = false;
     }
 }

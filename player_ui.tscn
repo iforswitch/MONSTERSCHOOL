@@ -1,0 +1,259 @@
+[gd_scene load_steps=14 format=3 uid="uid://ds23poow8c1g8"]
+
+[ext_resource type="Texture2D" uid="uid://cbt260mecga8b" path="res://UiSprites/attackspecial.png" id="1_3gec8"]
+[ext_resource type="Script" path="res://Score.cs" id="1_qv12q"]
+[ext_resource type="Texture2D" uid="uid://dw52vlxb3p6pv" path="res://UiSprites/roll.png" id="2_1mk7l"]
+[ext_resource type="Script" path="res://TextureProgressBar.cs" id="3_78f3y"]
+[ext_resource type="Script" path="res://BasicAttackbar.cs" id="3_80cn5"]
+[ext_resource type="Texture2D" uid="uid://c4ua36cyahvtj" path="res://UiSprites/bar.png" id="5_do5ep"]
+[ext_resource type="Script" path="res://Healthbar.cs" id="6_2nrfn"]
+[ext_resource type="Texture2D" uid="uid://bhwvbgu3vposr" path="res://PlayerSpecialSprites/SuperAttack.png" id="6_ifhn2"]
+[ext_resource type="Texture2D" uid="uid://cvchwpii7wiic" path="res://PlayerSpecialSprites/Bloodlust.png" id="7_m7o27"]
+[ext_resource type="Script" path="res://SpecialAttack1Bar.cs" id="8_tfyv1"]
+[ext_resource type="Script" path="res://SpecialAttack2Bar.cs" id="9_0k6oj"]
+[ext_resource type="Script" path="res://SpecialAttack3Bar.cs" id="11_bhhb7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xmpqn"]
+bg_color = Color(0.52549, 0.52549, 0.52549, 0.533333)
+
+[node name="PlayerUI" type="CanvasLayer"]
+
+[node name="PlayerUI" type="Control" parent="."]
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI"]
+layout_mode = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_constants/margin_top = 32
+
+[node name="Score" type="Label" parent="PlayerUI/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Skeletons Killed: "
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_qv12q")
+
+[node name="MarginContainer2" type="MarginContainer" parent="PlayerUI"]
+layout_mode = 2
+offset_top = 896.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="MarginContainer" type="MarginContainer" parent="PlayerUI/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.13
+
+[node name="Panel" type="Panel" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xmpqn")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="BasicAttackbar" type="TextureProgressBar" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 5
+nine_patch_stretch = true
+texture_under = ExtResource("1_3gec8")
+texture_progress = ExtResource("5_do5ep")
+tint_progress = Color(0, 0, 0, 0.443137)
+script = ExtResource("3_80cn5")
+
+[node name="Label" type="Label" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "J
+"
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="PlayerUI/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.13
+
+[node name="Panel" type="Panel" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xmpqn")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RollBar" type="TextureProgressBar" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 5
+nine_patch_stretch = true
+texture_under = ExtResource("2_1mk7l")
+texture_progress = ExtResource("5_do5ep")
+tint_progress = Color(0, 0, 0, 0.443137)
+script = ExtResource("3_78f3y")
+
+[node name="Label" type="Label" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer2/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "K
+"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUI/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer6" type="MarginContainer" parent="PlayerUI/MarginContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Healthbar" type="TextureProgressBar" parent="PlayerUI/MarginContainer2/HBoxContainer/VBoxContainer" node_paths=PackedStringArray("HealthInfo")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+nine_patch_stretch = true
+texture_under = ExtResource("5_do5ep")
+texture_progress = ExtResource("5_do5ep")
+tint_under = Color(1, 0, 0, 1)
+tint_progress = Color(0, 1, 0, 1)
+script = ExtResource("6_2nrfn")
+HealthInfo = NodePath("Label")
+
+[node name="Label" type="Label" parent="PlayerUI/MarginContainer2/HBoxContainer/VBoxContainer/Healthbar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -123.5
+offset_top = -45.5
+offset_right = 123.5
+offset_bottom = 45.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer7" type="MarginContainer" parent="PlayerUI/MarginContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer3" type="MarginContainer" parent="PlayerUI/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.13
+
+[node name="Panel" type="Panel" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xmpqn")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BasicAttackbar" type="TextureProgressBar" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer3/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 5
+nine_patch_stretch = true
+texture_under = ExtResource("6_ifhn2")
+texture_progress = ExtResource("5_do5ep")
+tint_under = Color(0.121569, 1, 0.345098, 1)
+tint_progress = Color(0, 0, 0, 0.443137)
+script = ExtResource("8_tfyv1")
+
+[node name="Label" type="Label" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer3/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Z
+"
+horizontal_alignment = 1
+
+[node name="MarginContainer4" type="MarginContainer" parent="PlayerUI/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.13
+
+[node name="Panel" type="Panel" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer4"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xmpqn")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BasicAttackbar" type="TextureProgressBar" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer4/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 5
+nine_patch_stretch = true
+texture_under = ExtResource("1_3gec8")
+texture_progress = ExtResource("5_do5ep")
+tint_under = Color(1, 0, 0, 1)
+tint_progress = Color(0, 0, 0, 0.443137)
+script = ExtResource("9_0k6oj")
+
+[node name="Label" type="Label" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer4/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "X
+"
+horizontal_alignment = 1
+
+[node name="MarginContainer5" type="MarginContainer" parent="PlayerUI/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.13
+
+[node name="Panel" type="Panel" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer5"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xmpqn")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BasicAttackbar" type="TextureProgressBar" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer5/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+fill_mode = 5
+nine_patch_stretch = true
+texture_under = ExtResource("7_m7o27")
+texture_progress = ExtResource("5_do5ep")
+tint_under = Color(0.835294, 0.329412, 0.270588, 1)
+tint_progress = Color(0, 0, 0, 0.443137)
+script = ExtResource("11_bhhb7")
+
+[node name="Label" type="Label" parent="PlayerUI/MarginContainer2/HBoxContainer/MarginContainer5/VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "C
+"
+horizontal_alignment = 1
