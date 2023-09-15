@@ -16,7 +16,7 @@ public partial class start_screen : Control
     /// </summary>
     public void OnStartPressed()
 	{
-        if (UsernameField.Text != "" || UsernameField.Text != null)
+        if ((UsernameField.Text).Length > 10)
         {
             UsernameField.Text = "Unknown";
             PlayerGlobalsVariable._Ready();
@@ -26,6 +26,10 @@ public partial class start_screen : Control
 
 	public void _on_text_edit_text_changed()
 	{
+        if ((UsernameField.Text).Length > 22)
+        {
+            UsernameField.Undo();
+        }
         PlayerGlobalsVariable.Username = UsernameField.Text;
         GD.Print(PlayerGlobalsVariable.Username);
 	}

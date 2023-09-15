@@ -390,9 +390,9 @@ layer_0/tile_data = PackedInt32Array(393216, 327684, 6, 393217, 327684, 6, 39321
 [node name="StatsUI" type="CanvasLayer" parent="." groups=["StatsUI"]]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-visible = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(1.5, 1.5)
 motion_mirroring = Vector2(3840, 0)
 
 [node name="Background0" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
