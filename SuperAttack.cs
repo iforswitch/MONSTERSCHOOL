@@ -28,7 +28,15 @@ public partial class SuperAttack : State
     {
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+
+        //Set the player global variable
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+
         SuperAttackCooldown = RollCooldown;
+
+        //Set timer wait time to 2 seconds with CD reduction
+        SuperAttackCooldown.WaitTime = 2 * PlayerGlobalsVariable.Cooldown;
+
         CharacterBody2D parent = (CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
         Node2D instance = (Node2D)SuperAttackScene.Instantiate();
         instance.GlobalPosition = parent.GlobalPosition;

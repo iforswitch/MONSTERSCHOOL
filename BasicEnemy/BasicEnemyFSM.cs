@@ -63,6 +63,12 @@ public partial class BasicEnemyFSM : FSM
         if (CurrentState != null)
         {
             CurrentState.PhysicsProcess(delta);
+
+            if (Health <= 0 && !Dead)
+            {
+                Dead = true;
+                OnStateTransition(emittingState: CurrentState, targetState: "BasicEnemyDead");
+            }
         }
     }
 
@@ -144,11 +150,6 @@ public partial class BasicEnemyFSM : FSM
             {
                 OnStateTransition(emittingState: CurrentState, targetState: "BasicEnemyHurt");
             }
-        }
-        else if (Health <= 0 && !Dead)
-        {
-            Dead = true;
-            OnStateTransition(emittingState: CurrentState, targetState: "BasicEnemyDead");
         }
 
         DamageIndicatorGlobal.EmitSignal("DamageIndicate", GetParent(), -damage);

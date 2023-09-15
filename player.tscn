@@ -1170,7 +1170,6 @@ PivotNode = NodePath("../../PivotNode")
 RollCooldown = NodePath("SuperAttack3")
 
 [node name="SuperAttack3" type="Timer" parent="PlayerFSM/SuperAttack3"]
-wait_time = 0.5
 
 [node name="SuperAttack3AnimPlay" type="AnimationPlayer" parent="PlayerFSM/SuperAttack3"]
 root_node = NodePath("../../..")
@@ -1199,6 +1198,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

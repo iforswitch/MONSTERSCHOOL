@@ -1,0 +1,261 @@
+[gd_scene load_steps=14 format=3 uid="uid://bducilsbxrn45"]
+
+[ext_resource type="Script" path="res://stat.cs" id="1_icmhc"]
+[ext_resource type="Script" path="res://AttackStat.cs" id="2_4hjyb"]
+[ext_resource type="Script" path="res://DexterityStat.cs" id="3_ntuof"]
+[ext_resource type="Script" path="res://HealthStat.cs" id="4_732gq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2ent"]
+bg_color = Color(0.6, 0.6, 0.6, 0.482353)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sx0cp"]
+bg_color = Color(1, 1, 1, 0.101961)
+corner_radius_top_left = 64
+corner_radius_top_right = 64
+corner_radius_bottom_right = 64
+corner_radius_bottom_left = 64
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8epjh"]
+bg_color = Color(1, 1, 1, 0)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1gpfn"]
+bg_color = Color(0.8, 0.443137, 0.286275, 0.521569)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mbecr"]
+bg_color = Color(1, 0.647059, 0.133333, 0.498039)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibt7v"]
+bg_color = Color(0.698039, 0.537255, 0.682353, 0.419608)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wwlvf"]
+bg_color = Color(0.701961, 0.545098, 0.933333, 0.752941)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kr08"]
+bg_color = Color(0.517647, 0.643137, 0.486275, 0.54902)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8kk28"]
+bg_color = Color(0.278431, 0.690196, 0.505882, 0.603922)
+
+[node name="Stat" type="Control"]
+process_mode = 2
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_icmhc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_n2ent")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 128
+text = "CHOOSE A STAT UPGRADE"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sx0cp")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8epjh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_1gpfn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_mbecr")
+
+[node name="AttackStat" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer" node_paths=PackedStringArray("StatInformation", "StatCount") groups=["Stats"]]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 0
+theme_override_colors/font_color = Color(0.447059, 0.0588235, 0, 1)
+theme_override_font_sizes/font_size = 64
+text = "Attack
+"
+flat = true
+script = ExtResource("2_4hjyb")
+StatInformation = NodePath("../../StatInfromation")
+StatCount = NodePath("../../StatCount")
+
+[node name="StatInfromation" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "asdada"
+horizontal_alignment = 1
+
+[node name="StatCount" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ibt7v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_wwlvf")
+
+[node name="DexterityStat" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer" node_paths=PackedStringArray("StatInformation", "StatCount") groups=["Stats"]]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.258824, 0.00392157, 0.423529, 1)
+theme_override_font_sizes/font_size = 64
+text = "Dexterity"
+script = ExtResource("3_ntuof")
+StatInformation = NodePath("../../StatInfromation")
+StatCount = NodePath("../../StatCount")
+
+[node name="StatInfromation" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "asdada"
+horizontal_alignment = 1
+
+[node name="StatCount" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_4kr08")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer3"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer3/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8kk28")
+
+[node name="HealthStat" type="Button" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer3/VBoxContainer/MarginContainer" node_paths=PackedStringArray("StatInformation", "StatCount") groups=["Stats"]]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.137255, 0.423529, 0.243137, 1)
+theme_override_font_sizes/font_size = 64
+text = "Health"
+script = ExtResource("4_732gq")
+StatInformation = NodePath("../../StatInfromation")
+StatCount = NodePath("../../StatCount")
+
+[node name="StatInfromation" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+text = "asdada"
+horizontal_alignment = 1
+
+[node name="StatCount" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/MarginContainer3/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1

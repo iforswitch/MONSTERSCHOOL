@@ -19,17 +19,16 @@ public partial class PlayerFSM : FSM
     //State variable for the current state
     public State CurrentState = new();
 
-    //Variable for health
-    public float Health;
-
     //Variable for death
     public bool Dead;
 
     //Variable for global player variables
-    PlayerGlobals PlayerGlobalsVariable = new();
+    public PlayerGlobals PlayerGlobalsVariable = new();
 
     //Array for skill timers
-    Timer[] SkillTimers = new Timer[3];
+    public Timer[] SkillTimers = new Timer[3];
+
+    PackedScene scene = GD.Load<PackedScene>("res://stat.tscn");
 
     /// <summary>
 	/// Called when the node enters the scene tree for the first time.
@@ -42,8 +41,8 @@ public partial class PlayerFSM : FSM
         //Connect special attack 3 signal
         PlayerGlobalsVariable.Connect("SpecialAttack3", Callable.From(OnSpecialAttack3));
 
-        //Set the health
-        Health = PlayerGlobalsVariable.MaxHealth;
+        //Conenct levell up signal
+        PlayerGlobalsVariable.Connect("LevelUp", Callable.From(OnLevelUp));
 
         //Set the array
         SkillTimers[0] = RollTimer;
@@ -75,12 +74,17 @@ public partial class PlayerFSM : FSM
     /// <param name="delta"></param>
     public override void _PhysicsProcess(double delta)
     {
+        if (Input.IsActionPressed("TestStat")) 
+        { 
+            OnLevelUp(); 
+        }
+
         //Execute the state physics process
         if (CurrentState != null)
         {
             CurrentState.PhysicsProcess(delta);
 
-            if (Health <= 0 && !Dead)
+            if (PlayerGlobalsVariable.CurrentHealth <= 0 && !Dead)
             {
                 Dead = true;
                 OnStateTransition(emittingState: CurrentState, targetState: "PlayerDeath");
@@ -161,12 +165,12 @@ public partial class PlayerFSM : FSM
         {
             if (CurrentState != PlayerStates.GetValueOrDefault("SuperAttack2"))
             {
-                if (Health > 0)
+                if (PlayerGlobalsVariable.CurrentHealth > 0)
                 {
                     OnStateTransition(emittingState: CurrentState, targetState: "PlayerHurt");
                 }
             }
-            Health -= damage;
+            PlayerGlobalsVariable.CurrentHealth -= damage;
         }
     }
 
@@ -182,7 +186,7 @@ public partial class PlayerFSM : FSM
             PlayerGlobalsVariable.Damage *= 2;
             PlayerGlobalsVariable.Speed *= 2;
             PlayerGlobalsVariable.JumpStrength *= 1.25f;
-            PlayerGlobalsVariable.RollSpeed *= 1.25f;
+            PlayerGlobalsVariable.RollSpeed *= 2f;
             for (int i = 0; i < SkillTimers.Length; i++)
             {
                 SkillTimers[i].WaitTime *= PlayerGlobalsVariable.Cooldown;
@@ -195,7 +199,7 @@ public partial class PlayerFSM : FSM
             PlayerGlobalsVariable.Damage /= 2;
             PlayerGlobalsVariable.Speed /= 2;
             PlayerGlobalsVariable.JumpStrength /= 1.25f;
-            PlayerGlobalsVariable.RollSpeed /= 1.25f;
+            PlayerGlobalsVariable.RollSpeed /= 2f;
             for (int i = 0; i < SkillTimers.Length; i++)
             {
                 SkillTimers[i].WaitTime /= PlayerGlobalsVariable.Cooldown;
@@ -208,6 +212,34 @@ public partial class PlayerFSM : FSM
     /// </summary>
     public void OnSuperAttack3Timeout()
     {
-        Health -= 10;
+        PlayerGlobalsVariable.CurrentHealth -= PlayerGlobalsVariable.MaxHealth*0.1f;
+    }
+
+    /// <summary>
+    /// Function for level up signal
+    /// </summary>
+    public void OnLevelUp()
+    {
+        //Pause the entire game
+        GetTree().Paused = true;
+
+        stat statInstance = (stat)scene.Instantiate();
+
+        //Add ui to player
+        GetParent().AddChild(statInstance);
+        CharacterBody2D parent = (CharacterBody2D)GetParent();
+
+        //Set ui position to player position
+        statInstance.GlobalPosition = parent.GlobalPosition;
+        statInstance.StatFinished += OnStatFinished;
+    }
+
+    /// <summary>
+    /// Function to execute once player finishes picking a stat to upgrade
+    /// </summary>
+    public void OnStatFinished()
+    {
+        //Unpase game
+        GetTree().Paused = false;
     }
 }
