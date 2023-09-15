@@ -1089,7 +1089,7 @@ StateSprite = NodePath("../../Sprite2D")
 wait_time = 0.1
 one_shot = true
 
-[node name="AttackCD" type="Timer" parent="PlayerFSM/PlayerAttack"]
+[node name="AttackCD" type="Timer" parent="PlayerFSM/PlayerAttack" groups=["BasicAttackTimer"]]
 one_shot = true
 
 [node name="PlayerHurt" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode")]
@@ -1168,7 +1168,6 @@ libraries = {
 }
 
 [node name="SuperAttack3CD" type="Timer" parent="PlayerFSM/SuperAttack3" groups=["SpecialAttack3Cooldown"]]
-wait_time = 3.0
 one_shot = true
 
 [node name="Label" type="Label" parent="."]

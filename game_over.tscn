@@ -100,3 +100,4 @@ text = "Exit
 "
 
 [connection signal="pressed" from="GameOver/MarginContainer/VBoxContainer/MarginContainer2/Button" to="GameOver" method="OnStartPressed"]
+[connection signal="pressed" from="GameOver/MarginContainer/VBoxContainer/MarginContainer3/Button2" to="GameOver" method="OnExitPressed"]

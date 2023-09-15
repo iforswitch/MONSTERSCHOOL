@@ -19,6 +19,7 @@ public partial class start_screen : Control
         if (UsernameField.Text != "" || UsernameField.Text != null)
         {
             UsernameField.Text = "Unknown";
+            PlayerGlobalsVariable._Ready();
             GetTree().ChangeSceneToFile("res://game_root.tscn");
         }
     }
