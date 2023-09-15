@@ -23,6 +23,9 @@ public partial class PlayerRoll : State
         //Set the global player variables
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
         RollSpeed = PlayerGlobalsVariable.RollSpeed;
+
+        //Set timer wait time to 2 seconds with CD reduction
+        RollCooldown.WaitTime = 2 * PlayerGlobalsVariable.Cooldown;
     }
 
     /// <summary>

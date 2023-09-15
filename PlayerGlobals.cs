@@ -6,6 +6,7 @@ public partial class PlayerGlobals : Node
 	//Signal for special attack 3
 	[Signal] public delegate void SpecialAttack3EventHandler();
 
+	//Signal for levelling up
 	[Signal] public delegate void LevelUpEventHandler();
 
 	//Variable for checking if special attack 3 is activated
@@ -17,8 +18,17 @@ public partial class PlayerGlobals : Node
 	//Stat player global variables
 	public float AttackStat, DexterityStat, HealthStat;
 
+	//Bool to check for levelling up
+	public bool IsLevelling;
+
 	//Score
-	public int Score;
+	public int Wave;
+
+	//Skeletons Killed
+	public int SkeletonsKilled;
+
+	//Isplaying
+	public bool IsPlaying;
 	public override void _Ready()
 	{
 		//Main variables
@@ -37,7 +47,16 @@ public partial class PlayerGlobals : Node
 		DexterityStat = 0;
 		HealthStat = 0;
 
+		//Levelling
+		IsLevelling = false;
+
 		//Score
-		Score = 0;
+		Wave = 1;
+
+		//Skeletons Killed
+		SkeletonsKilled = 0;
+
+		//Isplaying
+		IsPlaying = false;
 	}
 }

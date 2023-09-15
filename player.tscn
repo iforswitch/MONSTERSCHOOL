@@ -1014,12 +1014,13 @@ hframes = 10
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_kw4nk")
 
-[node name="PlayerFSM" type="Node2D" parent="." node_paths=PackedStringArray("StateText", "RollTimer", "SuperAttack1Timer", "SuperAttack2Timer", "InitialState") groups=["FSM"]]
+[node name="PlayerFSM" type="Node2D" parent="." node_paths=PackedStringArray("StateText", "RollTimer", "SuperAttack1Timer", "SuperAttack2Timer", "NewWaveTimer", "InitialState") groups=["FSM"]]
 script = ExtResource("3_ti585")
 StateText = NodePath("../Label")
 RollTimer = NodePath("PlayerRoll/RollCooldown")
 SuperAttack1Timer = NodePath("SuperAttack/SuperAttack")
 SuperAttack2Timer = NodePath("SuperAttack2/SuperAttack2")
+NewWaveTimer = NodePath("../NewWaveTImer")
 InitialState = NodePath("PlayerIdle")
 MaxHealth = 100.0
 
@@ -1199,6 +1200,10 @@ script = ExtResource("14_vuwk6")
 position = Vector2(-17, 0)
 polygon = PackedVector2Array(173, 40, 211, 34, 257, -3, 266, -92, 311, -36, 312, 54, 278, 96, 230, 95, 151, 60)
 
+[node name="NewWaveTImer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="timeout" from="PlayerFSM/PlayerAttack/AttackBuffer" to="PlayerFSM/PlayerAttack" method="OnAttackBufferTimeout"]
 [connection signal="timeout" from="PlayerFSM/PlayerDeath/DeathTimer" to="PlayerFSM/PlayerDeath" method="OnDeathTimerTimeout"]
 [connection signal="timeout" from="PlayerFSM/SuperAttack3/SuperAttack3" to="PlayerFSM" method="OnSuperAttack3Timeout"]
@@ -1216,3 +1221,4 @@ polygon = PackedVector2Array(173, 40, 211, 34, 257, -3, 266, -92, 311, -36, 312,
 [connection signal="animation_finished" from="AnimationPlayer" to="PlayerFSM/SuperAttack2" method="OnAnimationPlayerFinished"]
 [connection signal="OverlappingBodiesCheck" from="PivotNode/Hitbox" to="PlayerFSM/PlayerAttack" method="OnOverlappingBodiesCheck"]
 [connection signal="OverlappingBodiesCheck" from="PivotNode/Hitbox" to="PlayerFSM/SuperAttack2" method="OnOverlappingBodiesCheck"]
+[connection signal="timeout" from="NewWaveTImer" to="PlayerFSM" method="OnNewWaveTimerTimeout"]

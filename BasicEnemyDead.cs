@@ -59,6 +59,9 @@ public partial class BasicEnemyDead : State
         if (anim_name == Name)
         {
             DeathTimer.Start();
+
+            //Increase score
+            PlayerGlobalsVariable.SkeletonsKilled += 1;
         }
     }
 
@@ -67,7 +70,6 @@ public partial class BasicEnemyDead : State
     /// </summary>
     public void OnDeathTimerTimeout()
     {
-        PlayerGlobalsVariable.Score += 1;
         GetParent().GetParent().QueueFree();
     }
 }

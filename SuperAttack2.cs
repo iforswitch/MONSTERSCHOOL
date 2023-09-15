@@ -33,8 +33,12 @@ public partial class SuperAttack2 : State
         StateAnimation.Play(Name);
         SuperAttack2Cooldown = RollCooldown;
 
-        //Set global player variables
+        //Set the player global variable
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+
+        //Set timer wait time to 2 seconds with CD reduction
+        SuperAttack2Cooldown.WaitTime = 2 * PlayerGlobalsVariable.Cooldown;
+
         damage = PlayerGlobalsVariable.Damage;
 
         CanHit = true;

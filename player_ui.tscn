@@ -31,7 +31,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 theme_override_constants/margin_top = 32
 
-[node name="Score" type="Label" parent="PlayerUI/MarginContainer"]
+[node name="Score" type="Label" parent="PlayerUI/MarginContainer" node_paths=PackedStringArray("WaveDoneTimer")]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 32
@@ -39,6 +39,11 @@ text = "Skeletons Killed: "
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("1_qv12q")
+WaveDoneTimer = NodePath("WaveDoneTimer")
+
+[node name="WaveDoneTimer" type="Timer" parent="PlayerUI/MarginContainer/Score"]
+wait_time = 5.0
+one_shot = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="PlayerUI"]
 layout_mode = 2
@@ -257,3 +262,5 @@ theme_override_font_sizes/font_size = 32
 text = "C
 "
 horizontal_alignment = 1
+
+[connection signal="timeout" from="PlayerUI/MarginContainer/Score/WaveDoneTimer" to="PlayerUI/MarginContainer/Score" method="OnWaveDoneTimerTimeout"]

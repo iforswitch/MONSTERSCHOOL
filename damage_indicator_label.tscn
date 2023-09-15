@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://damage_indicator_label.cs" id="1_5fsgq"]
 
-[node name="DamageIndicatorLabel" type="Label"]
+[node name="DamageIndicatorLabel" type="Label" node_paths=PackedStringArray("timer")]
 offset_right = 74.0
 offset_bottom = 91.0
 size_flags_horizontal = 4
@@ -17,5 +17,9 @@ text = "50"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("1_5fsgq")
+timer = NodePath("Timer")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

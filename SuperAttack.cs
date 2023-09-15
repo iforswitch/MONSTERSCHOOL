@@ -29,10 +29,10 @@ public partial class SuperAttack : State
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
 
+        SuperAttackCooldown = RollCooldown;
+
         //Set the player global variable
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
-
-        SuperAttackCooldown = RollCooldown;
 
         //Set timer wait time to 2 seconds with CD reduction
         SuperAttackCooldown.WaitTime = 2 * PlayerGlobalsVariable.Cooldown;

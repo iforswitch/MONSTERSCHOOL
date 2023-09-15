@@ -13,6 +13,9 @@ public partial class PlayerFSM : FSM
     [Export] public Timer SuperAttack1Timer = new();
     [Export] public Timer SuperAttack2Timer = new();
 
+    //Export variable for new wave timer
+    [Export] public Timer NewWaveTimer = new();
+
     //Dictionary variable for all states of the player
     public Dictionary<string, State> PlayerStates = new();
 
@@ -28,7 +31,11 @@ public partial class PlayerFSM : FSM
     //Array for skill timers
     public Timer[] SkillTimers = new Timer[3];
 
+    //Scene stat
     PackedScene scene = GD.Load<PackedScene>("res://stat.tscn");
+
+    //Wave handler
+    SpawnPositions WaveHandler = new();
 
     /// <summary>
 	/// Called when the node enters the scene tree for the first time.
@@ -41,8 +48,11 @@ public partial class PlayerFSM : FSM
         //Connect special attack 3 signal
         PlayerGlobalsVariable.Connect("SpecialAttack3", Callable.From(OnSpecialAttack3));
 
-        //Conenct levell up signal
+        //Conenct level up signal
         PlayerGlobalsVariable.Connect("LevelUp", Callable.From(OnLevelUp));
+
+        //Set WaveHandler
+        WaveHandler = (SpawnPositions)GetTree().GetFirstNodeInGroup("SpawnPositions");
 
         //Set the array
         SkillTimers[0] = RollTimer;
@@ -74,11 +84,6 @@ public partial class PlayerFSM : FSM
     /// <param name="delta"></param>
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed("TestStat")) 
-        { 
-            OnLevelUp(); 
-        }
-
         //Execute the state physics process
         if (CurrentState != null)
         {
@@ -238,6 +243,15 @@ public partial class PlayerFSM : FSM
     /// </summary>
     public void OnStatFinished()
     {
+        NewWaveTimer.Start();
         GetTree().Paused = false;
+    }
+
+    /// <summary>
+    /// Function to call new wave
+    /// </summary>
+    public void OnNewWaveTimerTimeout()
+    {
+        WaveHandler.EmitSignal("WaveReset");
     }
 }

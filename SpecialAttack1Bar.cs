@@ -11,17 +11,17 @@ public partial class SpecialAttack1Bar : TextureProgressBar
     {
         //Set timer
         t1 = (Timer)GetTree().GetFirstNodeInGroup("SpecialAttack1Cooldown");
-
-        //Set max to cooldown
-        MaxValue = t1.WaitTime;
-
-        //Set step
-        Step = t1.WaitTime / 360;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(double delta)
     {
+        //Set max to cooldown
+        MaxValue = t1.WaitTime;
+
+        //Set step
+        Step = t1.WaitTime / 360;
+
         //Set value to the current cooldown time
         Value = t1.TimeLeft;
     }
