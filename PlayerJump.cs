@@ -11,9 +11,10 @@ public partial class PlayerJump : State
     [Export] public float JumpStrength;
 
     //Export variable for special attack cooldown timer
+    [Export] public Timer BasicAttack = new();
     [Export] public Timer SpecialAttackCooldown = new();
-
     [Export] public Timer SpecialAttack2Cooldown = new();
+    [Export] public Timer SpecialAttack3Cooldown = new();
 
     //Variable for movement direction
     public Vector2 Direction = new();
@@ -90,7 +91,7 @@ public partial class PlayerJump : State
         }
 
         //Go to PlayerAttack if SubjectBody is attacking
-        if (Input.IsActionPressed("Attack"))
+        if (Input.IsActionPressed("Attack") && BasicAttack.TimeLeft == 0)
         {
             EmitSignal(signal: "StateTransition", this, "PlayerAttack");
         }
@@ -110,6 +111,11 @@ public partial class PlayerJump : State
         if (Input.IsActionPressed("Special2") && SpecialAttack2Cooldown.TimeLeft == 0)
         {
             EmitSignal(signal: "StateTransition", this, "SuperAttack2");
+        }
+
+        if (Input.IsActionPressed("Special3") && SpecialAttack3Cooldown.TimeLeft == 0)
+        {
+            EmitSignal(signal: "StateTransition", this, "SuperAttack3");
         }
 
         if (Direction.X != 0)

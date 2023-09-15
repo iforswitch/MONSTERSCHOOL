@@ -13,6 +13,9 @@ public partial class PlayerAttack : State
     //Export variable for attack buffering
     [Export] public Timer AttackBuffer = new();
 
+    //Export variable for attack buffering
+    [Export] public Timer AttackCooldown = new();
+
     //Export variable for area2D
     [Export] public Area2D AttackHitbox = new();
 
@@ -36,7 +39,7 @@ public partial class PlayerAttack : State
 
         //Set global player variables
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
-        damage = PlayerGlobalsVariable.Damage;
+        damage = PlayerGlobalsVariable.Damage/5;
     }
 
     /// <summary>
@@ -102,6 +105,7 @@ public partial class PlayerAttack : State
     /// </summary>
     public void ExitAttackState()
     {
+        AttackCooldown.Start();
         //Go to PlayerFall if not grounded
         if (!SubjectBody.IsOnFloor())
         {

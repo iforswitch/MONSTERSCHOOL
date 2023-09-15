@@ -5,6 +5,7 @@ using System;
 public partial class PlayerIdle : State
 {
     //Export variable for special attack cooldown timer
+    [Export] public Timer BasicAttack = new();
     [Export] public Timer SpecialAttackCooldown = new();
     [Export] public Timer SpecialAttack2Cooldown = new();
     [Export] public Timer SpecialAttack3Cooldown = new();
@@ -60,7 +61,7 @@ public partial class PlayerIdle : State
         }
 
         //Go to PlayerAttack if SubjectBody is attacking
-        if (Input.IsActionPressed("Attack"))
+        if (Input.IsActionPressed("Attack") && BasicAttack.TimeLeft == 0)
         {
             EmitSignal(signal: "StateTransition", this, "PlayerAttack");
         }
