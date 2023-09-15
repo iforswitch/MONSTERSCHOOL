@@ -33,7 +33,7 @@ public partial class DamageIndicator : Node
             DamageIndicatorBody = (Label)DamageIndicatorScene.Instantiate();
             damagedBody.GetParent().AddChild(DamageIndicatorBody);
 			DamageIndicatorBody.GlobalPosition = damagedBody.GlobalPosition;
-			DamageIndicatorBody.Text = damageValue.ToString();
+			DamageIndicatorBody.Text = Math.Round(damageValue).ToString();
 		}
 	}
 }

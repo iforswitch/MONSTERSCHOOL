@@ -1097,6 +1097,7 @@ StateSprite = NodePath("../../Sprite2D")
 PivotNode = NodePath("../../PivotNode")
 
 [node name="DeathTimer" type="Timer" parent="PlayerFSM/PlayerDeath"]
+one_shot = true
 
 [node name="PlayerRoll" type="Node2D" parent="PlayerFSM" node_paths=PackedStringArray("SubjectBody", "StateAnimation", "StateSprite", "PivotNode", "RollCooldown")]
 script = ExtResource("12_iss1n")

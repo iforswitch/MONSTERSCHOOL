@@ -29,10 +29,22 @@ public partial class PlayerGlobals : Node
 
 	//Isplaying
 	public bool IsPlaying;
+
+	//String highscore
+	public string HighScore = "";
+
+	//Player Username
+	public string Username = "";
 	public override void _Ready()
 	{
-		//Main variables
-		IsSpecialAttack3 = -1;
+        //Write highscore wave to file
+        var file = FileAccess.Open("../SkeletonBananza", FileAccess.ModeFlags.Read);
+		HighScore = file.GetAsText();
+
+		Username = "";
+
+        //Main variables
+        IsSpecialAttack3 = -1;
 		MaxHealth = 100;
 		CurrentHealth = MaxHealth;
 		AttackSpeed = 1;

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 //Inherits the FSM class
 public partial class PlayerFSM : FSM
@@ -251,7 +252,7 @@ public partial class PlayerFSM : FSM
     /// Function to call new wave
     /// </summary>
     public void OnNewWaveTimerTimeout()
-    {
+    { 
         WaveHandler.EmitSignal("WaveReset");
     }
 }

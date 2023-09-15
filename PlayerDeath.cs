@@ -16,6 +16,7 @@ public partial class PlayerDeath : State
     {
         GD.Print($"{Name} entered.");
         StateAnimation.Play(Name);
+        PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
     }
 
     /// <summary>
@@ -63,6 +64,10 @@ public partial class PlayerDeath : State
     /// </summary>
     public void OnDeathTimerTimeout()
     {
+        //Write highscore wave to file
+        var file = FileAccess.Open("../SkeletonBananza", FileAccess.ModeFlags.Write);
+        PlayerGlobalsVariable.HighScore += $"{PlayerGlobalsVariable.Username} reached {PlayerGlobalsVariable.Wave}!\n";
+        file.StoreString(PlayerGlobalsVariable.HighScore);
         GetTree().Quit();
     }
 }
