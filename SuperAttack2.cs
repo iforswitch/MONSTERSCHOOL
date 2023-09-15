@@ -37,7 +37,7 @@ public partial class SuperAttack2 : State
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
 
         //Set timer wait time to 2 seconds with CD reduction
-        SuperAttack2Cooldown.WaitTime = 2 * PlayerGlobalsVariable.Cooldown;
+        SuperAttack2Cooldown.WaitTime = 10 * PlayerGlobalsVariable.Cooldown;
 
         damage = PlayerGlobalsVariable.Damage;
 

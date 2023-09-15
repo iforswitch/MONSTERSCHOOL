@@ -23,7 +23,7 @@ public partial class SuperAttack3 : State
     {
         GD.Print($"{Name} entered.");
         SuperAttack3Timer = RollCooldown;
- 
+
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
 
         CharacterBody2D parent = (CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");

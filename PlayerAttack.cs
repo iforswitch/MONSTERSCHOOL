@@ -39,6 +39,9 @@ public partial class PlayerAttack : State
 
         //Set global player variables
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
+
+        AttackCooldown.WaitTime = 1 * PlayerGlobalsVariable.Cooldown;
+
         damage = PlayerGlobalsVariable.Damage/5;
     }
 

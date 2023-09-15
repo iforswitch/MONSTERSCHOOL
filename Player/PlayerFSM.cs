@@ -10,6 +10,7 @@ public partial class PlayerFSM : FSM
     [Export] public Label StateText = new();
 
     //Export variable for skill timers
+    [Export] public Timer BasicAttack = new();
     [Export] public Timer RollTimer = new();
     [Export] public Timer SuperAttack1Timer = new();
     [Export] public Timer SuperAttack2Timer = new();
@@ -30,7 +31,7 @@ public partial class PlayerFSM : FSM
     public PlayerGlobals PlayerGlobalsVariable = new();
 
     //Array for skill timers
-    public Timer[] SkillTimers = new Timer[3];
+    public Timer[] SkillTimers = new Timer[4];
 
     //Scene stat
     PackedScene scene = GD.Load<PackedScene>("res://stat.tscn");
@@ -59,6 +60,7 @@ public partial class PlayerFSM : FSM
         SkillTimers[0] = RollTimer;
         SkillTimers[1] = SuperAttack1Timer;
         SkillTimers[2] = SuperAttack2Timer;
+        SkillTimers[3] = BasicAttack;
 
         //Set the deatg
         Dead = false;
@@ -186,13 +188,14 @@ public partial class PlayerFSM : FSM
     /// </summary>
     public void OnSpecialAttack3()
     {
+        float specialIncrease = 1.25f;
         if (PlayerGlobalsVariable.IsSpecialAttack3 == 1)
         {
-            PlayerGlobalsVariable.JumpStrength *= 1.25f;
-            PlayerGlobalsVariable.Damage *= 2;
-            PlayerGlobalsVariable.Speed *= 2;
-            PlayerGlobalsVariable.JumpStrength *= 1.25f;
-            PlayerGlobalsVariable.RollSpeed *= 2f;
+            PlayerGlobalsVariable.JumpStrength *= specialIncrease;
+            PlayerGlobalsVariable.Damage *= specialIncrease;
+            PlayerGlobalsVariable.Speed *= specialIncrease;
+            PlayerGlobalsVariable.JumpStrength *= specialIncrease;
+            PlayerGlobalsVariable.RollSpeed *= specialIncrease;
             for (int i = 0; i < SkillTimers.Length; i++)
             {
                 SkillTimers[i].WaitTime *= PlayerGlobalsVariable.Cooldown;
@@ -201,11 +204,11 @@ public partial class PlayerFSM : FSM
 
         else 
         {
-            PlayerGlobalsVariable.JumpStrength /= 1.25f;
-            PlayerGlobalsVariable.Damage /= 2;
-            PlayerGlobalsVariable.Speed /= 2;
-            PlayerGlobalsVariable.JumpStrength /= 1.25f;
-            PlayerGlobalsVariable.RollSpeed /= 2f;
+            PlayerGlobalsVariable.JumpStrength /= specialIncrease;
+            PlayerGlobalsVariable.Damage /= specialIncrease;
+            PlayerGlobalsVariable.Speed /= specialIncrease;
+            PlayerGlobalsVariable.JumpStrength /= specialIncrease;
+            PlayerGlobalsVariable.RollSpeed /= specialIncrease;
             for (int i = 0; i < SkillTimers.Length; i++)
             {
                 SkillTimers[i].WaitTime /= PlayerGlobalsVariable.Cooldown;

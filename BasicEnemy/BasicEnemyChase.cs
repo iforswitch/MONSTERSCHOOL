@@ -33,6 +33,7 @@ public partial class BasicEnemyChase : State
     {
         GD.Print($"{Name} entered.");
         player = (CharacterBody2D)GetTree().GetFirstNodeInGroup("Player");
+        DetectionRadius.Scale = new Vector2(2, 2);
         StateAnimation.Play(Name);
     }
 
@@ -41,6 +42,7 @@ public partial class BasicEnemyChase : State
     /// </summary>
     public override void StateExit()
     {
+        DetectionRadius.Scale = new Vector2(1, 1);
         GD.Print($"{Name} exited.");
     }
 

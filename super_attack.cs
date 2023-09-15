@@ -30,7 +30,8 @@ public partial class super_attack : CharacterBody2D
 
         //Set global player variables
         PlayerGlobalsVariable = GetNode<PlayerGlobals>("/root/PlayerGlobals");
-        damage = PlayerGlobalsVariable.Damage;
+
+        damage = PlayerGlobalsVariable.Damage * 2/5;
     }
 
     public override void _PhysicsProcess(double delta)
