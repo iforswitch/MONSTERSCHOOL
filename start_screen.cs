@@ -19,7 +19,7 @@ public partial class start_screen : Control
         if (UsernameField.Text != "" || UsernameField.Text != null)
         {
             UsernameField.Text = "Unknown";
-            GetTree().ChangeSceneToFile("res://test_scene.tscn");
+            GetTree().ChangeSceneToFile("res://game_root.tscn");
         }
     }
 

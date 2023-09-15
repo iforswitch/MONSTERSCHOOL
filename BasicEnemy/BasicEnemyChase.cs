@@ -42,7 +42,7 @@ public partial class BasicEnemyChase : State
     /// </summary>
     public override void StateExit()
     {
-        DetectionRadius.Scale = new Vector2(1, 1);
+            
         GD.Print($"{Name} exited.");
     }
 

@@ -68,6 +68,7 @@ public partial class PlayerDeath : State
         var file = FileAccess.Open("../SkeletonBananza", FileAccess.ModeFlags.Write);
         PlayerGlobalsVariable.HighScore += $"{PlayerGlobalsVariable.Username} reached wave {PlayerGlobalsVariable.Wave}!\n";
         file.StoreString(PlayerGlobalsVariable.HighScore);
-        GetTree().Quit();
+        GetTree().ChangeSceneToFile("res://game_over.tscn");
+        GetParent().GetParent().GetParent().QueueFree();
     }
 }

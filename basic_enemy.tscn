@@ -490,9 +490,10 @@ StateText = NodePath("../Label")
 InitialState = NodePath("BasicEnemyIdle")
 MaxHealth = 100.0
 
-[node name="BasicEnemyIdle" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerIdle", "SubjectBody", "StateAnimation")]
+[node name="BasicEnemyIdle" type="Node2D" parent="BasicEnemyFSM" node_paths=PackedStringArray("WanderTimerIdle", "DetectionRadius", "SubjectBody", "StateAnimation")]
 script = ExtResource("4_uok5i")
 WanderTimerIdle = NodePath("WanderTimerIdle")
+DetectionRadius = NodePath("../BasicEnemyChase/DetectionRadius")
 SubjectBody = NodePath("../..")
 StateAnimation = NodePath("../../AnimationPlayer")
 

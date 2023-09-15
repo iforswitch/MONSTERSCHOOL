@@ -7,6 +7,8 @@ public partial class BasicEnemyIdle : State
     //Export variable for the wander timer
     [Export] public Timer WanderTimerIdle = new();
 
+    [Export] public Area2D DetectionRadius = new();
+
     //Variable for randomness
     public RandomNumberGenerator r = new();
 
@@ -22,6 +24,7 @@ public partial class BasicEnemyIdle : State
         RandomiseWanderTimer();
         WanderTimerIdle.Start();
         StateAnimation.Play(Name);
+        DetectionRadius.Scale = new Vector2(1, 1);
     }
 
     /// <summary>

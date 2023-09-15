@@ -79,9 +79,9 @@ placeholder_text = "Username"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 500
-theme_override_constants/margin_top = 100
+theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 500
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_bottom = 25
 
 [node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer5"]
 layout_mode = 2
@@ -98,9 +98,9 @@ text = "Play
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 500
-theme_override_constants/margin_top = 100
+theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 500
-theme_override_constants/margin_bottom = 100
+theme_override_constants/margin_bottom = 25
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MarginContainer3"]
 layout_mode = 2

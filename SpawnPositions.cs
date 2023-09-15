@@ -55,7 +55,7 @@ public partial class SpawnPositions : Node2D
 	//Calculate wave enemy numbers
 	public float CalculateWave(float waveNumber)
 	{
-		float number = 3 + (2 * (waveNumber));
+		float number = 1 + (2 * (waveNumber));
 		return number;
 	}
 

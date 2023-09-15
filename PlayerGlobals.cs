@@ -35,7 +35,7 @@ public partial class PlayerGlobals : Node
 
 	//Player Username
 	public string Username = "";
-	public override void _Ready()
+    public override void _Ready()
 	{
         //Write highscore wave to file
         var file = FileAccess.Open("../SkeletonBananza", FileAccess.ModeFlags.Read);
